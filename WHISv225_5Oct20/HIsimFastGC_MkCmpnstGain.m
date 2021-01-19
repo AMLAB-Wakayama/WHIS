@@ -1,0 +1,157 @@
+%
+%  HIsimFastGC_MkCmpnstGain.m
+%  Irino, T.
+%  Created:  12 Dec 18 (from Check_HIsim_IOfuction.m)
+%  Modified: 12 Dec  18  
+%  Modified: 14 Dec  18  (renamed from HIsimFastGC_MkTableGain)  
+%  Modified: 8 Dec 2019  %HIsimFastGC_MkCmpnstGain2mfile(TableGain)導入
+% 
+%  Note: 14 Dec 18
+%  ちゃんと調整するためのGain 
+%  HIsimFastGC_CmpnstGain.mat を計算
+% 
+%  Note: 8 Dec 19
+%  コンパイル版で、このmat fileの扱いが面倒なので、m-fileに変換するプログラム
+%  HIsimFastGC_MkCmpnstGain2mfile(TableGain)導入
+%  
+%
+function [TableGain] = HIsimFastGC_MkCmpnstGain(SwGetName),
+
+Mfn = which(eval('mfilename')); % directory of this m-file
+TableGain.Dir = [ fileparts(Mfn) '/' ];
+TableGain.Name = 'HIsimFastGC_CmpnstGain.mat' ;
+TableGain.Note = 'IT, 14 Dec 18';
+
+if nargin == 1 & SwGetName == 1, return; end;  % SwGetName==1の時はファイル名だけ返す。
+
+if exist([TableGain.Dir TableGain.Name]) > 0,
+    disp([TableGain.Name ' exist. -- Overwrite?']);
+    disp(['Return to OK >  ']);
+    pause
+end;
+
+%%%%%%%%%%%%%%%%%%%
+% 補正するGainの算出をする。
+% Tableを作って、補完から値を求める。
+%
+ParamHI.AudiogramNum = NaN; % 手動設定
+ParamHI.SPLdB_CalibTone = 80;
+ParamHI.SrcSndSPLdB = 0; % SPL0dBで調べて、そのgainで合わせ込む。
+ParamHI.SwGUIbatch = 'Batch';
+[ParamHI] = HIsimFastGC_InitParamHI(ParamHI); % ParamHIのload
+
+%%%%%%%%%%%%%%%%%%%
+% サイン波の音圧レベル・周波数ほか
+fs = 48000;  
+Tdur = 0.2;% in sec
+LenSnd = Tdur*fs;
+
+%TableGain.CmprsList = [100 50 0];
+% TableGain.CmprsList = [0:5:100];
+TableGain.CmprsList = [100 67 50 33 0]; % これ以外defaultでは取れない。
+TableGain.HLdBList = [-5:5:80];
+TableGain.FaudgramList =  ParamHI.FaudgramList;
+
+SrcSndLeveldB = [];
+HIsimSndLeveldB = [];
+
+for nfc= 1:length(TableGain.FaudgramList)
+    fc = TableGain.FaudgramList(nfc);
+
+    SndIn = TaperWindow(LenSnd,'han',0.005*fs).*sin(2*pi*fc*(0:Tdur*fs-1)/fs);
+    SndIn = SndIn(:)'; 
+
+    for Cmprs = TableGain.CmprsList
+        ParamHI.getComp = Cmprs; % 100%表示
+        nCmprs = find(Cmprs == TableGain.CmprsList);
+        
+        for nHL = 1:length(TableGain.HLdBList)  
+            HLdB = TableGain.HLdBList(nHL);
+            ParamHI.HearingLevelVal =  HLdB*ones(1,7);
+            [HIsimSnd,SrcSnd, ParamHIbatch] = HIsimBatch(SndIn, ParamHI) ;
+            BiasDigital2SPLdB = ParamHI.SPLdB_CalibTone - ParamHIbatch.CalibTone.RMSDigitalLeveldB;
+ 
+            SrcSndLeveldB(nCmprs,nHL,nfc) = 20*log10(sqrt(mean(SrcSnd.^2)))+BiasDigital2SPLdB; %
+            HIsimSndLeveldB(nCmprs, nHL,nfc) = 20*log10(sqrt(mean(HIsimSnd.^2)))+BiasDigital2SPLdB;
+            HIsimSndLeveldB_DiffHL(nCmprs, nHL,nfc) = HIsimSndLeveldB(nCmprs, nHL,nfc) + HLdB;
+            CmprsMeshgrid(nCmprs,nHL,nfc) = Cmprs;
+            HLdBMeshgrid(nCmprs,nHL,nfc) = HLdB;
+            FaudgramMeshgrid(nCmprs,nHL,nfc) = fc;
+
+            % 違いがあるかを確認
+            if (ParamHIbatch.SPLdB_CalibTone -  ParamHI.SPLdB_CalibTone) ~= 0 || ...
+                    (ParamHIbatch.SrcSndSPLdB - ParamHI.SrcSndSPLdB) ~=0
+                error('Something wrong');
+            end;
+        end;
+        
+    end;
+ 
+end;
+ 
+%%
+HIsimSndLeveldB_DiffHL
+
+%%
+TableGain.ParamHI = ParamHI;
+TableGain.CmprsMeshgrid         = CmprsMeshgrid;
+TableGain.HLdBMeshgrid          = HLdBMeshgrid;
+TableGain.FaudgramMeshgrid  = FaudgramMeshgrid;
+TableGain.HIsimSndLeveldB     = HIsimSndLeveldB;
+TableGain.HIsimSndLeveldB_DiffHL = HIsimSndLeveldB_DiffHL;
+TableGain.BiasDigital2SPLdB   = BiasDigital2SPLdB;
+
+save([TableGain.Dir  TableGain.Name],'TableGain');
+
+return;
+
+
+%% %%%%%%%%%%%%%%%%%%
+%  参考　
+%%%%%%%%%%%%%%%%%%%%
+
+
+%%
+%%% 3次元が使えるなら、２次元補完を使う必要ないかも。ただ、、、
+%%%  Faudgramごとに条件が違うので、いずれにせよ、1周波数ごとに出すこと。
+%%% また、c versionのために、2次元で書いた方が良い気がする。
+%%%
+%Vq = interp2(X,Y,V,Xq,Yq)
+
+for nfc= 1:length(TableGain.FaudgramList)
+    fc = TableGain.FaudgramList(nfc);
+    GainMtrx = squeeze(TableGain.HIsimSndLeveldB_DiffHL(:,:,nfc));
+    X = squeeze(TableGain.HLdBMeshgrid(:,:,nfc));
+    Y = squeeze(TableGain.CmprsMeshgrid(:,:,nfc));
+    qCmprs = 50;
+    qHLdB = 10;
+    Gain4Cmpnst2(nfc) = interp2(X,Y,GainMtrx,qHLdB,qCmprs)
+    nCmprs = find(TableGain.CmprsList== qCmprs);
+    nHLdB  = find(TableGain.HLdBList== qHLdB);
+    aa(nfc) = GainMtrx(nCmprs,nHLdB)
+
+end;
+Gain4Cmpnst2
+
+
+
+%% 3次元補完が可能. 以下の式で補正のためのgain計算可能。
+[LenCmprs,LenHLdB,LenFaud] = size(TableGain.HIsimSndLeveldB_DiffHL);
+for nfc = 1:length(TableGain.FaudgramList);
+    fc = TableGain.FaudgramList(nfc);
+    ValGain = TableGain.HIsimSndLeveldB_DiffHL;
+    X = TableGain.HLdBMeshgrid;
+    Y = TableGain.CmprsMeshgrid;
+    Z = TableGain.FaudgramMeshgrid;
+    Gain4Cmpnst(nfc) = interp3(X,Y,Z,ValGain,10,50,fc)
+    ValGain(2,2,nfc)
+end;
+Gain4Cmpnst
+
+%%%%  m-fileに変換するものも　入れておく　8 Dec 2019 %%%%  
+HIsimFastGC_MkCmpnstGain2mfile(TableGain);
+
+
+
+
+

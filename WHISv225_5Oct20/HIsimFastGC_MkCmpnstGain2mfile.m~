@@ -1,0 +1,101 @@
+%
+%   TableGainがmat fileのため、コンパイルした後mat fileをコピーする必要あり。
+%   m-file にできないか？　ーー　一般的なscriptとして書くのは無理そう。専用。
+%   Irino, T.
+%   Created: 8 Dec 2019
+%   Modified: 8 Dec 2019
+%   Modified: 9 Dec 2019  % すべての係数で一致するか検査するように。
+%
+%
+%   HIsimFastGC_MkCmpnstGain.mの補完。m-fileに変換
+%
+%
+function  HIsimFastGC_MkCmpnstGain2mfile(TableGain1);
+
+if nargin < 1
+    Mfn = which(eval('mfilename')); % directory of this m-file
+    TableGain1.Dir = [ fileparts(Mfn) '/' ];
+    TableGain1.Name = 'HIsimFastGC_CmpnstGain.mat' ;
+end;
+NameMAT = [TableGain1.Dir TableGain1.Name];
+NameMfile = strrep(NameMAT,'.mat','.m'); 
+[filepathe NameFile ext] = fileparts(NameMAT);
+clear TableGain1
+
+load(NameMAT)
+fid = fopen(NameMfile,'w');
+dd = whos;
+fprintf('% This m-file
+for jj=1:length(dd) % parse DD list
+    if strcmp(dd(jj).name,'TableGain') > 0  % 'TableGain'以外は処理しない
+        %dd(jj).name
+        NameField = eval(['fieldnames(' dd(jj).name ')'])
+        for nf = 1: length(NameField)
+            strField = [dd(jj).name '.' char(NameField(nf))];
+            valField = eval(strField);
+            if isstr(valField) == 1,
+                str= sprintf('%s = ''%s''; ',strField,valField);
+                fprintf(fid,'%s',str);  disp(str);
+            elseif strcmp(char(NameField(nf)),'ParamHI')
+                disp('skip ParamHI')
+            else
+                [LenN LenM LenK] = size(valField);
+                for nk = 1:LenK
+                    str = sprintf('%s(:,:,%d) = [', strField,nk);
+                    fprintf(fid,'%s',str);  disp(str);
+                    
+                    for nn = 1:LenN
+                        %  str= sprintf('%g, ',valField(nn,:,nk));
+                        str= sprintf('%12.9f, ',valField(nn,:,nk)); %精度保持のため、%12.9f。
+                        fprintf(fid,'%s',str);  disp(str);
+                        
+                        str= sprintf(';');
+                        fprintf(fid,'%s',str);  disp(str);
+                        
+                    end;
+                    str = sprintf('];\n');
+                    fprintf(fid,'%s',str);  disp(str);
+                    str = ' ';
+                    fprintf(fid,'%s',str);  disp(str);
+                end;
+            end;
+             str = sprintf('\n');
+             fprintf(fid,'%s',str);  disp(str);
+        end
+    end;
+end;
+
+fclose(fid);
+%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%
+%%% Check Difference     %%%
+%%%%%%%%%%%%% %%%%
+TableGainMAT = TableGain;
+clear TableGain;   %clear
+eval(NameFile)  % load m-file
+NameField = fieldnames(TableGain);
+
+for nf = 4: length(NameField)  %最初の3つはstringなので無視
+        StrValMAT = ['TableGainMAT.' char(NameField(nf)) ];
+        StrValM = ['TableGain.' char(NameField(nf)) ];
+        StrEval1 = ['RMSerror = sqrt(mean(mean(mean( (' StrValMAT ' - ' StrValM ').^2)))) ./ '];
+        StrEval2 = [ 'sqrt(mean(mean(mean( (' StrValMAT ').^2))));'];
+        disp([StrEval1 StrEval2])
+        eval([StrEval1 StrEval2])
+        disp(['RMSerror (' StrValM ') = ' num2str(RMSerror)])
+end;
+
+% 結果：　%12.9fを使った場合
+% RMSerror (TableGain.CmprsList) = 0
+% RMSerror (TableGain.HLdBList) = 0
+% RMSerror (TableGain.FaudgramList) = 0
+% RMSerror (TableGain.CmprsMeshgrid) = 0
+% RMSerror (TableGain.HLdBMeshgrid) = 0
+% RMSerror (TableGain.FaudgramMeshgrid) = 0
+% RMSerror (TableGain.HIsimSndLeveldB) = 5.2819e-12
+% RMSerror (TableGain.HIsimSndLeveldB_DiffHL) = 1.6258e-11
+% RMSerror (TableGain.BiasDigital2SPLdB) = 0
+
+
