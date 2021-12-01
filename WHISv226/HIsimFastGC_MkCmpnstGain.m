@@ -1,20 +1,35 @@
 %
-%  Check_HIsim_SetGain.m
+%  HIsimFastGC_MkCmpnstGain.m
 %  Irino, T.
 %  Created:  12 Dec 18 (from Check_HIsim_IOfuction.m)
 %  Modified: 12 Dec  18  
+%  Modified: 14 Dec  18  (renamed from HIsimFastGC_MkTableGain)  
+%  Modified: 8 Dec 2019  %HIsimFastGC_MkCmpnstGain2mfile(TableGain)導入
+% 
+%  Note: 14 Dec 18
+%  ちゃんと調整するためのGain 
+%  HIsimFastGC_CmpnstGain.mat を計算
+% 
+%  Note: 8 Dec 19
+%  コンパイル版で、このmat fileの扱いが面倒なので、m-fileに変換するプログラム
+%  HIsimFastGC_MkCmpnstGain2mfile(TableGain)導入
+%  
 %
-%  Gain をちゃんと調整するための係数決め
-%
-function [TableGain] = HIsimFastGC_MkTableGain(Switch),
+function [TableGain] = HIsimFastGC_MkCmpnstGain(SwGetName),
 
 Mfn = which(eval('mfilename')); % directory of this m-file
 TableGain.Dir = [ fileparts(Mfn) '/' ];
-TableGain.Name = '/HIsimFastGC_CmpnstGain.mat' ;
-TableGain.NoteSetup = 'IT, 12 Dec 18';
+TableGain.Name = 'HIsimFastGC_CmpnstGain.mat' ;
+TableGain.Note = 'IT, 14 Dec 18';
 
-if nargin == 1 and return; end;
- 
+if nargin == 1 & SwGetName == 1, return; end;  % SwGetName==1の時はファイル名だけ返す。
+
+if exist([TableGain.Dir TableGain.Name]) > 0,
+    disp([TableGain.Name ' exist. -- Overwrite?']);
+    disp(['Return to OK >  ']);
+    pause
+end;
+
 %%%%%%%%%%%%%%%%%%%
 % 補正するGainの算出をする。
 % Tableを作って、補完から値を求める。
@@ -24,7 +39,6 @@ ParamHI.SPLdB_CalibTone = 80;
 ParamHI.SrcSndSPLdB = 0; % SPL0dBで調べて、そのgainで合わせ込む。
 ParamHI.SwGUIbatch = 'Batch';
 [ParamHI] = HIsimFastGC_InitParamHI(ParamHI); % ParamHIのload
-
 
 %%%%%%%%%%%%%%%%%%%
 % サイン波の音圧レベル・周波数ほか
@@ -87,7 +101,7 @@ TableGain.HIsimSndLeveldB     = HIsimSndLeveldB;
 TableGain.HIsimSndLeveldB_DiffHL = HIsimSndLeveldB_DiffHL;
 TableGain.BiasDigital2SPLdB   = BiasDigital2SPLdB;
 
-save([DirSave  NameTableGain],'TableGain');
+save([TableGain.Dir  TableGain.Name],'TableGain');
 
 return;
 
@@ -105,7 +119,7 @@ return;
 %Vq = interp2(X,Y,V,Xq,Yq)
 
 for nfc= 1:length(TableGain.FaudgramList)
-    fc = TableGain.FaudgramList(nfc)
+    fc = TableGain.FaudgramList(nfc);
     GainMtrx = squeeze(TableGain.HIsimSndLeveldB_DiffHL(:,:,nfc));
     X = squeeze(TableGain.HLdBMeshgrid(:,:,nfc));
     Y = squeeze(TableGain.CmprsMeshgrid(:,:,nfc));
@@ -118,7 +132,6 @@ for nfc= 1:length(TableGain.FaudgramList)
 
 end;
 Gain4Cmpnst2
-aa
 
 
 
@@ -134,3 +147,11 @@ for nfc = 1:length(TableGain.FaudgramList);
     ValGain(2,2,nfc)
 end;
 Gain4Cmpnst
+
+%%%%  m-fileに変換するものも　入れておく　8 Dec 2019 %%%%  
+HIsimFastGC_MkCmpnstGain2mfile(TableGain);
+
+
+
+
+
