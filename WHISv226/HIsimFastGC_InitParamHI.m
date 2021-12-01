@@ -46,9 +46,9 @@ if strcmp(ParamHI.SwGUIbatch,'GUI') == 1   % GUI版の場合
     ParamHI.SPLdB_CalibTone = 80; % 経験からの設定値　-- GUIから変更できない
     ParamHI.SrcSndSPLdB_default = 65;        % 特にLoadSoundする時のdefault値　19Apr19
     ParamHI.SrcSndSPLdB = ParamHI.SrcSndSPLdB_default;  
-        %   後からGUIで変更可能　19Apr19
-        %   Calibration toneを録再生すると、
-    
+        %   後からGUIで変更可能　19 Apr 19
+        %   校正でCalibration toneを録再生すると、ParamHI.SrcSndSPLdBは
+        %   ParamHI.SPLdB_CalibToneと同じになってしまう。　ーー＞   値は別に制御したい。
     
 elseif   strcmp(ParamHI.SwGUIbatch,'Batch') == 1 % Batch版の場合  
     %  default値は無し。必ず指定すること。
