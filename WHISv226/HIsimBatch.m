@@ -95,7 +95,7 @@ end
 NumComp = find(ParamHIbatch.getComp == ParamHIbatch.Table_getComp);  %CompはTableから
 
 
-if isnan(ParamHIbatch.AudiogramNum) == 0, %NaN以外なら、HearingLevelListから設定。
+if isnan(ParamHIbatch.AudiogramNum) == 0 %NaN以外なら、HearingLevelListから設定。
     ParamHIbatch.HearingLevelVal = ParamHIbatch.HearingLevelList(ParamHIbatch.AudiogramNum,:);
 else   % ParamHIbatch.AudiogramNumが、NaNなら、直接設定する。　11 Dec 2018
    % ParamHIbatch.HearingLevelValの値が入っていることが前提

@@ -66,7 +66,7 @@ WHISparam.HLoss.CompressionHealth = 0.5;
 %WHISparam.HLoss.CompressionHealth = 0;
 
 SwWHISversionList = [1:3];
-%SwWHISversionList = 3;
+SwWHISversionList = 3;
 %WHISparam.EMLoss.LPFfc = 256*2;
 %WHISparam.EMLoss.LPFfc = 2;
 %WHISparam.EMLoss.LPForder = 2;
@@ -91,13 +91,14 @@ for nCmprsHlth = 1:length(CmprsHlthList)
             [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv300_Batch(SndIn, WHISparam) ;
         elseif SwWHISversion == 3
             StrEMLoss = '';
-            StrWHIS = '_WHISv225';
-            addpath([getenv('HOME')  '/m-file/Auditory/WHISv2/WHISv225_20Oct21/']);
+            StrWHIS = '_WHISv226';
+            addpath([DirProg  '/../WHISv226/']);
             ParamHI.fs = WHISparam.fs;
             ParamHI.AudiogramNum    = str2num(WHISparam.HLoss.Type(3));  % WHISparam.HLoss.Type = 'HL2';
             ParamHI.SPLdB_CalibTone = WHISparam.CalibTone.SPLdB;
             ParamHI.SrcSndSPLdB       = WHISparam.SrcSnd.SPLdB;
             ParamHI.getComp             = WHISparam.HLoss.CompressionHealth*100;
+            ParamHI.OutMidCrct          = 'FF'; % free field as an example
             [SndWHIS,SrcSnd]             = HIsimBatch(SndIn, ParamHI) ;
         end
         

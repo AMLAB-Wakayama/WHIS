@@ -4,21 +4,26 @@
 %%  和大模擬難聴システム
 %% Copyright (c) 2010-20xx  Wakayama University
 %% All rights reserved.
-%% By Toshio Irino , 2-Dec-2021  ---- Under preparation. Please wait the new README. ---
-%%
+%% By Toshio Irino , 2-Dec-2021  
 %% ======================================================================
 
 * WHISv225  2020 version
+    See ./WHISv255/_ReadMeFirst.rtf  (Japanese document) -- No English doc.
+    Do not use this version in the future experiments.
 
 * WHISv226  Oct 2021 version    
-    Introducing "FreeField" setting for comparison to WHISv300. No other major change.
+    Introducing "FreeField" setting into GCFBv211.m --> GCFBv211_ff.m 
+    No other major change. 
+    This version was produced only for comparison to WHISv300. (ad hoc)
+    Do not use this version in the future experiments.
 
-* WHISv300  Nov 2021 [1]
+* WHISv300  Nov 2021 version [1]
     New implementation of WHIS. GCFBv231 is essential for this version
+    See ./WHISv300/_ReadMeFirst_WHISv300.md 
 
 ---
 * GUI manual (Japanese & English)
-    WHIS_GUImanual_v225-300_202007.pdf
+    WHIS_GUImanual_v225-300_202007.pdf  
 
 * Related web page (Mainly for WHISv225)
    Web page URL (English): https://cs.tut.ac.jp/~tmatsui/whis/index-en.html
