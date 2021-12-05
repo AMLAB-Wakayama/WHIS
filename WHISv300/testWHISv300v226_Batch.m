@@ -11,6 +11,7 @@
 %  Modified:  10 Oct 21
 %  Modified:  20 Oct 21
 %  Modified:  21 Oct 21 renamed testWHISv300v226_Batch.m
+%  Modified:   2 Dec 21  debug OutMidCrct
 %
 %
 clear
@@ -29,7 +30,7 @@ if exist([DirSnd NameSrcSnd '.wav']) == 0
 end
 
 SwSnd = 1;
-if SwSnd == 2,
+if SwSnd == 2
     % NameSrcSnd = 'Snd_PulseTrain';  % 48 kHz
     if exist([DirProg NameSrcSnd '.wav']) == 0
         Fo = 100;
@@ -61,12 +62,13 @@ WHISparam.HLoss.Type = 'HL2';
 % WHISparam.HLoss.Type = 'NH';  % もとどおりのはず error -20dB --- NG
 WHISparam.CalibTone.SPLdB = 65;  % %元はWHISparam.SPLdB_CalibTone = 65;  名前を変更（整合性を取るため）
 WHISparam.SrcSnd.SPLdB = 65;
-WHISparam.HLoss.CompressionHealth = 0.5;
+WHISparam.HLoss.CompressionHealth = 0.5;  % == OHChealth
 %WHISparam.HLoss.CompressionHealth = 1;
 %WHISparam.HLoss.CompressionHealth = 0;
+WHISparam.GCparam.OutMidCrct = 'FreeField'; % you need to specify this here.
 
 SwWHISversionList = [1:3];
-%SwWHISversionList = 3;
+% SwWHISversionList = 3;
 %WHISparam.EMLoss.LPFfc = 256*2;
 %WHISparam.EMLoss.LPFfc = 2;
 %WHISparam.EMLoss.LPForder = 2;
@@ -89,15 +91,16 @@ for nCmprsHlth = 1:length(CmprsHlthList)
             StrWHIS = '_WHISv300fabs';
             WHISparam.SynthMethod = 'FBAnaSyn';
             [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv300_Batch(SndIn, WHISparam) ;
-        elseif SwWHISversion == 3
+        elseif SwWHISversion == 3  % check the previous version
             StrEMLoss = '';
-            StrWHIS = '_WHISv225';
-            addpath([getenv('HOME')  '/m-file/Auditory/WHISv2/WHISv225_20Oct21/']);
+            StrWHIS = '_WHISv226';
+            addpath([DirProg  '/../WHISv226/']);
             ParamHI.fs = WHISparam.fs;
             ParamHI.AudiogramNum    = str2num(WHISparam.HLoss.Type(3));  % WHISparam.HLoss.Type = 'HL2';
             ParamHI.SPLdB_CalibTone = WHISparam.CalibTone.SPLdB;
             ParamHI.SrcSndSPLdB       = WHISparam.SrcSnd.SPLdB;
-            ParamHI.getComp             = WHISparam.HLoss.CompressionHealth*100;
+            ParamHI.getComp              = WHISparam.HLoss.CompressionHealth*100;
+            ParamHI.OutMidCrct          = WHISparam.GCparam.OutMidCrct;
             [SndWHIS,SrcSnd]             = HIsimBatch(SndIn, ParamHI) ;
         end
         
@@ -111,20 +114,20 @@ for nCmprsHlth = 1:length(CmprsHlthList)
         % playblocking(ap);
         
         NameSrcSnd1 = [NameSrcSnd  '.wav'];
-        [a b c] = fileparts(NameSrcSnd1); disp(b);
+        [a, b, c] = fileparts(NameSrcSnd1); disp(b);
         audiowrite(NameSrcSnd1,SrcSnd,fs,'BitsPerSample',24);
         ap = audioplayer(SrcSnd,fs);
         playblocking(ap);
         
         NameSrcSnd_Rdct20 = [NameSrcSnd  '_Rdct-20dB.wav'];
-        [a b c] = fileparts(NameSrcSnd_Rdct20); disp(b);
+        [a, b, c] = fileparts(NameSrcSnd_Rdct20); disp(b);
         SrcSndRdct20dB = 10^(-20/20)*SrcSnd;  % -20 dB
         audiowrite(NameSrcSnd_Rdct20,SrcSndRdct20dB,fs,'BitsPerSample',24);
         ap = audioplayer(SrcSndRdct20dB,fs);
         playblocking(ap);
         
         NameSndWHIS1 = [NameSndWHIS '_' WHISparam.HLoss.Type StrCmprsHlth StrEMLoss '.wav'];
-        [a b c] = fileparts(NameSndWHIS1); disp(b);
+        [a, b, c] = fileparts(NameSndWHIS1); disp(b);
         audiowrite(NameSndWHIS1,SndWHIS,fs,'BitsPerSample',24);
         ap = audioplayer(SndWHIS,fs);
         playblocking(ap);

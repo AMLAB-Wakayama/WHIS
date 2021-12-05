@@ -49,6 +49,7 @@ GCparam.OutMidCrct = 'No';  %cochlear inputを見るときは、ELCをいれな�
 GCparam.Ctrl = 'dynamic'; % used to be 'time-varying'
 GCparam.DynHPAF.StrPrc = 'frame-base';
 
+
 WHISparam.fs = fs;
 WHISparam.GCparam = GCparam;
 

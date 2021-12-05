@@ -16,8 +16,7 @@ DirProg = fileparts(which(mfilename)); % このプログラムがあるところ
 %DirFigWHIS = [DirProg '/Fig/'];
 DirFigWHIS = [DirProg '/_Local/'];
 
-% DirFigGCFB = [DirProg '/../../GCFB/GCFBv231/Fig/'];
-DirFigGCFB = [DirProg '/../../GCFB/GCFBv231/_Local/'];
+DirFigGCFB = [DirProg '/../../gammachirp-filterbank/GCFBv231/_Local/'];
 NameFileHdr = 'Fig_IOfunc_';
 GCparam.HLoss.Type = 'HL2_Tsuiki2002_80yr';
 [GCparam2] = GCFBv231_HearingLoss(GCparam); % GCparam.HLossの設定を取るだけ
