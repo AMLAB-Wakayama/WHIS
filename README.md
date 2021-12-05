@@ -20,7 +20,7 @@ Packages:
     - This version was produced only for comparison to WHISv300.  
     - Do not use this version in the future experiments.  
 
-* WHISv300:  Nov 2021 version [1]  
+* WHISv300:  Nov 2021 version [1] --> New algorithm  
     - New implementation of WHIS. GCFBv231 is essential for this version  
     - See ./WHISv300/_ReadMeFirst_WHISv300.md  
 
