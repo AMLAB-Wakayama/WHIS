@@ -24,7 +24,7 @@ Packages:
     - New implementation of WHIS. 
     - GCFBv231 is essential for this version  
     - See ./WHISv300/_ReadMeFirst_WHISv300.md  
-    - See ./WHISv300/_ReadMeFirst_WHISv300_Jp.md  (Japanese)
+    - See ./WHISv300/_ReadMeFirst_WHISv300_Jp.md  (in Japanese)
 
 ---  
 Documents:  
