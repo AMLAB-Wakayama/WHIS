@@ -5,7 +5,7 @@
 %% Copyright (c) 2010-2021  Wakayama University  
 %% All rights reserved.  
 %% By Toshio Irino , 5-Dec-2021  
-%%
+%%  
 %% ======================================================================  
 
 * WHISv225  2020 version  
