@@ -21,7 +21,7 @@
     See ./WHISv300/_ReadMeFirst_WHISv300.md  
 
 ---  
-* GUI manual (Japanese & English)  
+* GUI manual (Japanese & English)  
     WHIS_GUImanual_v225-300_202007.pdf   
 
 * Related web page (Mainly for WHISv225)  
