@@ -336,10 +336,17 @@ for nSPL = 1:length(Param.SPLdBlist)
     for nCmprsHlth = 1:length(Param.CmprsHlthList)
         cnt = cnt+1;
         subplot(2,3,cnt);
-        bar(MeanMinErrdB(nWHIS,nSPL,nCmprsHlth));
+        y = MeanMinErrdB(nWHIS,nSPL,nCmprsHlth);
+        for k = 1:length(y)
+          hb = bar(k,y(k));
+          %hb = bar(k,y(k),'Facecolor',char(Colorbar(k)));
+          %hb.FaceColor= 'flat';
+          %hb.CData = k;
+          hold on
+        end
         title([int2str(Param.SPLdBlist(nSPL)) 'dB SPL,  \alpha = ' num2str(Param.CmprsHlthList(nCmprsHlth))])
         hold on
-        errorbar(MeanMinErrdB(nWHIS,nSPL,nCmprsHlth), StdMinErrdB(nWHIS,nSPL,nCmprsHlth),'.');
+        errorbar(MeanMinErrdB(nWHIS,nSPL,nCmprsHlth), StdMinErrdB(nWHIS,nSPL,nCmprsHlth),'k.');
         ax = axis;
         for nnn = 1:length(nNoise)
             plot(ax(2)-0.7+0.2*nnn,MeanMinErrdB(nNoise(nnn),nSPL,nCmprsHlth),'Marker',Marker(nnn),'Color','k')
