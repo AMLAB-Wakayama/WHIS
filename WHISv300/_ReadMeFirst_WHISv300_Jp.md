@@ -53,7 +53,7 @@
     （ Document/GUI_UserManual.pdf も参照のこと）  
   
  - 起動法：    
- ＞＞　StartupWHIS    
+ ＞＞ StartupWHIS    
  ＞＞ WHISv300_GUI    
  これにより、変数をclearし、WHIS_GUIを起動します。  
   

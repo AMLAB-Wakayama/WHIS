@@ -45,8 +45,8 @@
   - See Document/GUI_UserManual.pdf  
   
 - Execution:   
- >> StartupWHIS  
- >> WHISv300_GUI  
+ ＞＞ StartupWHIS    
+ ＞＞ WHISv300_GUI   
    
 - The following directory will be produced automatically.   
 	Mac:	/Users/[UserName]/Data/WHIS    
