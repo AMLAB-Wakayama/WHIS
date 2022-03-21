@@ -2,9 +2,9 @@
 %%  
 %% README file for Wadai (Wakayama University) Hearing Impairment Simulator (WHIS)  
 %%  和大模擬難聴システム  
-%% Copyright (c) 2010-2021  Wakayama University  
+%% Copyright (c) 2010-2022  Wakayama University  
 %% All rights reserved.  
-%% By Toshio Irino , 5-Dec-2021  
+%% By Toshio Irino , 21-Mar-2022
 %%  
 %% ======================================================================  
 
@@ -26,10 +26,16 @@ Packages:
     - See ./WHISv300/_ReadMeFirst_WHISv300.md  
     - See ./WHISv300/_ReadMeFirst_WHISv300_Jp.md  (in Japanese)
 
+* WHISv302:  Mar 2022 version
+    - New implementation of WHIS. 
+    - GCFBv233 is essential for this version  
+    - See ./WHISv302/_ReadMeFirst_WHISv302.md  
+    - See ./WHISv302/_ReadMeFirst_WHISv302_Jp.md  (in Japanese)
+
 ---  
 Documents:  
 * GUI manual (Japanese & English)  
-    - WHIS_GUImanual_v225-300_202007.pdf   
+    - WHIS_GUImanual_v22v30.pdf   
 
 * Related web page (Mainly for WHISv225)  
    - Web page URL (English): https://cs.tut.ac.jp/~tmatsui/whis/index-en.html  
@@ -39,3 +45,4 @@ Documents:
 Reference  
 - [1] Toshio Irino, "A new implementation of hearing impairment simulator WHIS based on the gammachirp auditory filterbank," Report of ASJ hearing commitee meeting, 11 Dec 2021 (Main text in Japanese, with English extended abstract)  
 --> English document is under preparation.
+B
