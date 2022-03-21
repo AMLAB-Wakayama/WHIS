@@ -1,80 +1,82 @@
 function varargout = WHIS_GUI(varargin)
 %
-% HI simulator with GUI.   HL_total = HL_OHC + HL_IHC
-% Misaki Nagae, Irino T.
+%      WHIS_GUI   HI simulator with GUI.   HL_total = HL_ACT + HL_PAS
+%      Misaki Nagae, Irino T.
 %
-% Created: Dec 2013
-% Modified: 23 Apr 2014 (NM, Play sound if pressed Loadbutton)
-% Modified: 16 Apr 2014 (NM, Radio button)
-% Modified: 22 Jan 2014 (NM)
-% Modified: 27 Jan 2014 (IT)
-% Modified: 28 Jan 2014b (IT)
-% Modified:  1 Feb 2014b (IT, _Callback   paramHI--> ParamHIGUI)
-% Modified:  2 Feb 2014b (IT, SPL)
-% Modified:  3 Feb 2014a (IT, DegreeCompression)
-% Modified:  4 Feb 2014  (IT, Almost done)
-% Modified:  5 Feb 2014  (IT, small mod)
-% Modified:  7 Feb 2014  (IT, Play previous sounds)
-% Modified: 15 May 2014  (MN, checked but no need to use EqlzDigitalLevel)
-% Modified: 21 Jun 2014  (IT, load sound -> playback equalized sound)
-% Modified: 11 Nov 2014  (IT, edit few lines)
-% Modified: 15 Nov 2014  (IT, keep sound file name, Nbits)
-% Modified: 18 Nov 2014  (IT, adding note on level this program vs. Meddis HC)
-% Modified: 21 Nov 2014  (IT, spelling Cmps->Cmprs)
-% Modified:  8 May 2015  (IT, AllowDownSampling = 1 when fs > 44000)
-% Modified: 14 May 2015  (IT, SwKeepSnd==0)
-% Modified:  9 Jun 2015  (NM, Added RecButton & RecReplay)
-% Modified: 15 Jun 2015  (NM, function moveWhileMouseUp)
-% Modified: 17 Jun 2015  (NM, added axes1's setting when Manual is chosen : function DrawAudiogram)
-% Modified:  9 Jul 2015  (NM, mouse dragging : added function myBDCallback, myBMCallback, myBUCallback in function MouseDraggedAdgm_Callback)
-% Modified: 23 Jul 2015  (NM, myBMCallback, Cp(1,2) range: -20 < Cp < 80)
-% Modified: 23 Jul 2015  (NM, deleted 'slider')
-% Modified: 28 Jul 2015  (NM, improved Record Button, added handles.RecBtnCnt)
+%       Created: Dec 2013
+%       Modified: 23 Apr 2014 (NM, Play sound if pressed Loadbutton)
+%       Modified: 16 Apr 2014 (NM, Radio button)
+%       Modified: 22 Jan 2014 (NM)
+%       Modified: 27 Jan 2014 (IT)
+%       Modified: 28 Jan 2014b (IT)
+%       Modified:  1 Feb 2014b (IT, _Callback   paramHI--> ParamHIGUI)
+%       Modified:  2 Feb 2014b (IT, SPL)
+%       Modified:  3 Feb 2014a (IT, DegreeCompression)
+%       Modified:  4 Feb 2014  (IT, Almost done)
+%       Modified:  5 Feb 2014  (IT, small mod)
+%       Modified:  7 Feb 2014  (IT, Play previous sounds)
+%       Modified: 15 May 2014  (MN, checked but no need to use EqlzDigitalLevel)
+%       Modified: 21 Jun 2014  (IT, load sound -> playback equalized sound)
+%       Modified: 11 Nov 2014  (IT, edit few lines)
+%       Modified: 15 Nov 2014  (IT, keep sound file name, Nbits)
+%       Modified: 18 Nov 2014  (IT, adding note on level this program vs. Meddis HC)
+%       Modified: 21 Nov 2014  (IT, spelling Cmps->Cmprs)
+%       Modified:  8 May 2015  (IT, AllowDownSampling = 1 when fs > 44000)
+%       Modified: 14 May 2015  (IT, SwKeepSnd==0)
+%       Modified:  9 Jun 2015  (NM, Added RecButton & RecReplay)
+%       Modified: 15 Jun 2015  (NM, function moveWhileMouseUp)
+%       Modified: 17 Jun 2015  (NM, added axes1's setting when Manual is chosen : function DrawAudiogram)
+%       Modified:  9 Jul 2015  (NM, mouse dragging : added function myBDCallback, myBMCallback, myBUCallback in function MouseDraggedAdgm_Callback)
+%       Modified: 23 Jul 2015  (NM, myBMCallback, Cp(1,2) range: -20 < Cp < 80)
+%       Modified: 23 Jul 2015  (NM, deleted 'slider')
+%       Modified: 28 Jul 2015  (NM, improved Record Button, added handles.RecBtnCnt)
 %                        (NM, text size (audiogram labels))
-% Modified: 24 Aug 2015  (NM, handles.RecObj (1ch))
-% Modified: 28 Aug 2015  (NM, added 'Enable': Can't manipilate while recording)HIsimFastGC_MkCalibTone
+%       Modified: 24 Aug 2015  (NM, handles.RecObj (1ch))
+%       Modified: 28 Aug 2015  (NM, added 'Enable': Can't manipilate while recording)HIsimFastGC_MkCalibTone
 %                        (NM, imread RecButton)
-% Modified: 31 Aug 2015  (NM, add handles.HIsimCnt, changed NameSuffix)
+%       Modified: 31 Aug 2015  (NM, add handles.HIsimCnt, changed NameSuffix)
 %                        (NM, ParamHIGUI.SwKeepSnd == 1 on)
-% Modified: 13 Sep 2015  (IT, modify DegreeCompression .Table_HLdB_AbsThresh_simHI-> .Table_HLdB_DegreeCompression)
-% Modified:  9 Oct 2015  (NM, deleted function Updateplot)
-% Modified:  5 Nov 2015  (NM, mouse dragging comp's Audiogram during pressing the Shift key : ParamHIGUI.GUI.KeyPress(function myBMCallback))
-% Modified: 12 Nov 2015  (NM, radiobutton -> popup menu(Audiogram, Compression, SPLdB))
+%       Modified: 13 Sep 2015  (IT, modify DegreeCompression .Table_HLdB_AbsThresh_simHI-> .Table_HLdB_DegreeCompression)
+%       Modified:  9 Oct 2015  (NM, deleted function Updateplot)
+%       Modified:  5 Nov 2015  (NM, mouse dragging comp's Audiogram during pressing the Shift key : ParamHIGUI.GUI.KeyPress(function myBMCallback))
+%       Modified: 12 Nov 2015  (NM, radiobutton -> popup menu(Audiogram, Compression, SPLdB))
 %                        (NM, Deleted GetDegreeCompression)
-% Modified: 19 Nov 2015  (NM, Deleted Radiobutton)
-% Modified:  5 Dec 2015, (NM, Enable to use editCmp1~7)
-% Modified:  9 Jul 2016, (IT, Major revison. Introducing calibration tone )
-% Modified: 11 Jul 2016, (IT, Sound Name  )
-% Modified:  1 Sep 2016, (IT, ParamHIGUI.SwNoLoadSound4Exp = 1 )
-% Modified:  9 Sep 2016, (IT, ParamHIGUI.RecordedCalibTone キャリブレーションで録音した音を基準音圧とする )
-% Modified: 10 Sep 2016, (IT, GUIまわりのボタンEnable on/off整理 )
-% Modified: 18 Mar 2017, (IT, Audiogram、80歳はISO7029ではなかった。正式規格にあわせる変更。 )
-% Modified: 11 Apr 2017, (IT, スペルミス修正 )
-% Modified: 12 Jun 2017, (IT, 立木AudiologyJapan45, pp.241-250,2002, 80歳データの導入  ParamHIGUI.HL_Tsuiki2002_80yr)
+%       Modified: 19 Nov 2015  (NM, Deleted Radiobutton)
+%       Modified:  5 Dec 2015, (NM, Enable to use editCmp1~7)
+%       Modified:  9 Jul 2016, (IT, Major revison. Introducing calibration tone )
+%       Modified: 11 Jul 2016, (IT, Sound Name  )
+%       Modified:  1 Sep 2016, (IT, ParamHIGUI.SwNoLoadSound4Exp = 1 )
+%       Modified:  9 Sep 2016, (IT, ParamHIGUI.RecordedCalibTone キャリブレーションで録音した音を基準音圧とする )
+%       Modified: 10 Sep 2016, (IT, GUIまわりのボタンEnable on/off整理 )
+%       Modified: 18 Mar 2017, (IT, Audiogram、80歳はISO7029ではなかった。正式規格にあわせる変更。 )
+%       Modified: 11 Apr 2017, (IT, スペルミス修正 )
+%       Modified: 12 Jun 2017, (IT, 立木AudiologyJapan45, pp.241-250,2002, 80歳データの導入  ParamHIGUI.HL_Tsuiki2002_80yr)
 %                        (IT, Calibration tone: -26 dB RMS のsin波を80 dB SPLとした。70dBだと、Mic入力で振り切る可能性あり。)
-% Modified: 15 Jun 2017, (IT,  debug. AudiogramNameList = {'Ex1', '80yr_Ave', ...,  GUIDEでのポップアップも変更)
-% Modified: 17 Jun 2017, (IT,  debug.立木はTsuiki。名称変更)
-% Modified: 26 Oct 2017, (IT,  Working Directory ~/tmpの設定に関するerror処理 + CalibTone ２度押し禁止処理。)
-% Modified:  7  Jul  2018  (IT,  外部関数を参照するように改良。Batchでも使えるように。)
-% Modified:  13  Jul 2018  (IT,  UI controlのバグ修正。)
-% Modified:   5  Aug 2018  (IT, line1056行目、handles.popupSPLdBのバグ修正。)
-% Modified:  20 Oct 2018  % IT, ParamHI.SwGUIbatch = 'GUI' の明示必須に (バッチ版は 'Batch')
-% Modified:   8  Dec 2018  % IT, GUIの改善　（Play時の色表示変更。Manual時のcmprs非表示, 自動実行等を導入）
-% Modified:   9  Dec 2018  % IT, GUIに関連するものだけ、"ParamHIGUI.GUI." にまとめる。干渉しないよう
-% Modified:  11 Dec 2018  % IT, 
-% Modified:  13 Dec 2018  % IT, 
-% Modified:  12 Jan 2019  % IT,  SetWorkingDirectoryで決め打ちのDirを作る。Windows対応。
-% Modified:  12 Apr 2019  % IT,  guideでfigureをresizeできるように変更
-% Modified:  18 Apr 2019  % IT,  debug ispc のところ、スペースが余計だった。
-% Modified:  19 Apr 2019  % IT,  ParamHI.SrcSndSPLdB_default導入 in  HIsimFastGC_InitParamHI
-% Modified:  22 Apr 2019  % KF,  GUIをwindows用に調整。figureのサイズ変更に伴って文字サイズも変更。
-% Modified:  2  May 2019  % KF,  taskkillコマンドを用いて、バッググランドで動作し続ける問題に対処
-% Modified:  9  May 2019  % IT, pcだけで、taskkillが実行されるように変更。関数名process_closereqに。
-% Modified:  23  Jul 2019  % IT, debug in HIsimFastGC_GetSrcSndNrmlz2CalibTone
-% Modified:   7 Feb 2020  % function process_closereq(src,callbackdata)内のProcess名をコンパイル時の名前を一致させる
-% Modified:  10 Oct 2021  % WHISv300対応
-% Modified:  20 Oct 2021  % dtvf/fbasの分岐をWHISv300に。
-% Modified:  21 Oct 2021  % Stopボタン等の場所、./Fig/に移動
+%       Modified: 15 Jun 2017, (IT,  debug. AudiogramNameList = {'Ex1', '80yr_Ave', ...,  GUIDEでのポップアップも変更)
+%       Modified: 17 Jun 2017, (IT,  debug.立木はTsuiki。名称変更)
+%       Modified: 26 Oct 2017, (IT,  Working Directory ~/tmpの設定に関するerror処理 + CalibTone ２度押し禁止処理。)
+%       Modified:  7  Jul  2018  (IT,  外部関数を参照するように改良。Batchでも使えるように。)
+%       Modified:  13  Jul 2018  (IT,  UI controlのバグ修正。)
+%       Modified:   5  Aug 2018  (IT, line1056行目、handles.popupSPLdBのバグ修正。)
+%       Modified:  20 Oct 2018  % IT, ParamHI.SwGUIbatch = 'GUI' の明示必須に (バッチ版は 'Batch')
+%       Modified:   8  Dec 2018  % IT, GUIの改善　（Play時の色表示変更。Manual時のcmprs非表示, 自動実行等を導入）
+%       Modified:   9  Dec 2018  % IT, GUIに関連するものだけ、"ParamHIGUI.GUI." にまとめる。干渉しないよう
+%       Modified:  11 Dec 2018  % IT, 
+%       Modified:  13 Dec 2018  % IT, 
+%       Modified:  12 Jan 2019  % IT,  SetWorkingDirectoryで決め打ちのDirを作る。Windows対応。
+%       Modified:  12 Apr 2019  % IT,  guideでfigureをresizeできるように変更
+%       Modified:  18 Apr 2019  % IT,  debug ispc のところ、スペースが余計だった。
+%       Modified:  19 Apr 2019  % IT,  ParamHI.SrcSndSPLdB_default導入 in  HIsimFastGC_InitParamHI
+%       Modified:  22 Apr 2019  % KF,  GUIをwindows用に調整。figureのサイズ変更に伴って文字サイズも変更。
+%       Modified:  2  May 2019  % KF,  taskkillコマンドを用いて、バッググランドで動作し続ける問題に対処
+%       Modified:  9  May 2019  % IT, pcだけで、taskkillが実行されるように変更。関数名process_closereqに。
+%       Modified:  23  Jul 2019  % IT, debug in HIsimFastGC_GetSrcSndNrmlz2CalibTone
+%       Modified:   7 Feb 2020  % function process_closereq(src,callbackdata)内のProcess名をコンパイル時の名前を一致させる
+%       Modified:  10 Oct 2021  % WHISv300対応
+%       Modified:  20 Oct 2021  % dtvf/fbasの分岐をWHISv300に。
+%       Modified:  21 Oct 2021  % Stopボタン等の場所、./Fig/に移動
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
 %
 % WHIS_GUI MATLAB code for WHIS_GUI.fig
@@ -156,7 +158,7 @@ set(handles.output,'CloseRequestFcn',@process_closereq);
 % 初期設定
 ParamHIGUI.SwGUIbatch = 'GUI';
 ParamHIGUI.fs = 48000; % GUI版は48000 Hzで実行
-ParamHIGUI = WHISv300_InitParamHI(ParamHIGUI); %%%% < ----
+ParamHIGUI = WHISv30_InitParamHI(ParamHIGUI); %%%% < ----
 ParamHIGUI.GUI.ColorTextMessage = [0.8471, 0.1608, 0] ;  % Orange:  Message
 ParamHIGUI.GUI.ColorTextPlay      = [0 0 1];  % Blue : Playback
 ParamHIGUI.GUI.ColorTextButton = [0 0 0];  % black
@@ -323,7 +325,7 @@ SetWorkingDirectory(hObject, handles);
 % 音の種類やパラメータはなんでも良く、ここでは短時間の音。
 % 短すぎると、DelayCmpnstでエラーが出るため、0.1 secに
 ParamHIGUI.SrcSnd = sin(2*pi*1000*(0:0.1*ParamHIGUI.fs)/ParamHIGUI.fs); % 10ms sin wave
-Exec_WHISv300(hObject, eventdata, handles);
+Exec_WHISv30(hObject, eventdata, handles);
 
 %
 %録音用のオブジェクト設定
@@ -771,7 +773,7 @@ global ParamHIGUI;
 
 
 ParamHIGUI.GUI.SwCalibTone = 1;
-[CalibTone, ParamHIGUI] = WHISv300_MkCalibTone(ParamHIGUI);
+[CalibTone, ParamHIGUI] = WHISv30_MkCalibTone(ParamHIGUI);
 apCalib  = audioplayer(CalibTone,ParamHIGUI.fs,ParamHIGUI.Nbits);
 
 Str = ['Playing calibration tone for ' int2str(ParamHIGUI.CalibTone.Tsnd) ...
@@ -893,7 +895,7 @@ set(handles.Processing,'Enable', 'on');
 end
 
 
-% wrapper function to WHISv300_GetSrcSndNrmlz2CalibTone
+% wrapper function to WHISv30_GetSrcSndNrmlz2CalibTone
 function [ParamHIGUI] = WHIS_GetSrcSndNrmlz2CalibTone(ParamHIGUI)
 
 SndLoad = ParamHIGUI.SndLoad;
@@ -901,7 +903,7 @@ RecordedCalibTone = ParamHIGUI.RecordedCalibTone;
 WHISparam.fs = ParamHIGUI.fs;
 WHISparam.SrcSnd.SPLdB  = ParamHIGUI.SrcSndSPLdB; 
 WHISparam.CalibTone.SPLdB  = ParamHIGUI.SPLdB_CalibTone;
-[SrcSnd, WHISparam] = WHISv300_GetSrcSndNrmlz2CalibTone(SndLoad,RecordedCalibTone,WHISparam);
+[SrcSnd, WHISparam] = WHISv30_GetSrcSndNrmlz2CalibTone(SndLoad,RecordedCalibTone,WHISparam);
 ParamHIGUI.SrcSnd = SrcSnd;
                
 end
@@ -1012,7 +1014,7 @@ set(handles.TextStatus, 'String', 'Processing ...');
 pause(0.01); % for display text
 set(handles.TextStatus,  'ForegroundColor',ParamHIGUI.GUI.ColorTextMessage);
 
-Exec_WHISv300(hObject, eventdata, handles);  % Execute WHISv300
+Exec_WHISv30(hObject, eventdata, handles);  % Execute WHISv30x
 
 if isfield(ParamHIGUI,'HIsimPrevSndPlayer') == 1
     ParamHIGUI.HIsimPrev2SndPlayer = ParamHIGUI.HIsimPrevSndPlayer;
@@ -1061,13 +1063,13 @@ set(handles.PlayHIsimPrev2, 'Enable', 'on');
 end
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Exec  WHISv300 
+%% Exec  WHISv30
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function Exec_WHISv300(hObject, eventdata, handles)
+function Exec_WHISv30(hObject, eventdata, handles)
 global ParamHIGUI
 
-disp('*** WHISv300 Processing ***')
+disp('*** WHISv30x Processing ***')
 
 WHISparam.fs                         = ParamHIGUI.fs;
 WHISparam.CalibTone.SPLdB  =  ParamHIGUI.SPLdB_CalibTone;
@@ -1093,11 +1095,12 @@ end % Manual setting
 
 SrcSnd = ParamHIGUI.SrcSnd; 
 
-% Setting 21 Oct 21
-GCparam.OutMidCrct = 'ELC';   %これだけ明示的に与える。　MAP/MAFも選択可能。
+% Setting 21 Oct 21  --> 6 Mar 2022
+GCparam.OutMidCrct = 'ELC';   %これだけ明示的に与える。　MAP/MAF/FreeFieldも選択可能。
+GCparam.OutMidCrct = 'FreeField';   % 6 Mar 2022　MAP/MAF/FreeFieldも選択可能。
 WHISparam.GCparam = GCparam;
 WHISparam.SynthMethod = 'DTVF'; % synth方法。これの音はまだ良いく、GUIに時間劣化は入っていない。
-[SndOut, WHISparamOut] = WHISv300(SrcSnd, WHISparam); % calbration tone でnormalizeされたSrcSndを使う
+[SndOut, WHISparamOut] = WHISv302(SrcSnd, WHISparam); % calbration tone でnormalizeされたSrcSndを使う
 
 % check
 %WHISparamOut
@@ -1476,9 +1479,9 @@ plot(handles.axes1, xii, ParamHIGUI.HLdB_LossCompression,'mx-','MarkerSize', 12,
 %   ['Preset Compression (' int2str(ParamHIGUI.DegreeCompressionPreSet*100) '%)'], 'FontSize', 12);
 %文字サイズをnormalized指定に変更 16 Apr 2019, KF
 % text(nTxt+0.1,ParamHIGUI.HLdB_LossCompression(nTxt)+4, ...
-%     ['HL_{OHC}'], 'FontSize', 12);
+%     ['HL_{ACT}'], 'FontSize', 12);
 text(nTxt+0.1,ParamHIGUI.HLdB_LossCompression(nTxt)+4, ...
-    ['HL_{OHC}'], 'FontUnits', 'normalized','FontName','メイリオ', 'FontSize', 0.025);
+    ['HL_{ACT}'], 'FontUnits', 'normalized','FontName','メイリオ', 'FontSize', 0.025);
 
 
 drawnow
@@ -1593,7 +1596,7 @@ set(handles.HIsimFig, 'KeyReleaseFcn', @myKRFcn);%5 Nov 15, NM
             elseif Cp(1,2) < -20
                 Cp(1,2) = -20;
             end
-            if ParamHIGUI.GUI.KeyPress == 1  % HL_OHCに対応：　マゼンタのオージオグラムを操作するとき
+            if ParamHIGUI.GUI.KeyPress == 1  % HL_ACTに対応：　マゼンタのオージオグラムを操作するとき
                 % disp(ParamHIGUI.HLdB_LossCompression)
                 ParamHIGUI.CompAdgmVal = ParamHIGUI.HLdB_LossCompression;
                 %limitter 11Nov15, NM
@@ -2213,7 +2216,7 @@ end
 % Macだと、taskkillが実行されないようにしました。
 %   （どうせmacではコマンドがないのでエラーで働かないでしょうが。）
 %
-% Modified: 7 Feb 2020, KF
+%       Modified: 7 Feb 2020, KF
 %   実行ファイルの名称変更に伴って、タスクキル用のコマンドを変更
 % Modified: 7 Feb 2020, IT
 %   コメント追加

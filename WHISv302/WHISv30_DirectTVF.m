@@ -1,8 +1,9 @@
 %
 %      WHIS: Wadai Hearing Impairment Simulator v300 --  Direct  Time-Varying Filter
 %      IRINO T.
-%      Created:   12 Aug 21 from HIsimFastGC.m
-%      Modified:   12 Aug 21
+%       Created:   12 Aug 2021 from HIsimFastGC.m
+%       Modified:   12 Aug 2021
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
 %
 %   function [SndOut, WHISparam] = _DirectTVF(SndIn, WHISparam);
 %   INPUT:  SndIn : input sound
@@ -11,7 +12,7 @@
 %                  WHISparam: parameters
 %
 %
-function [SndOut, WHISparam] = WHISv300_DirectTVF(SndIn, WHISparam)
+function [SndOut, WHISparam] = WHISv30_DirectTVF(SndIn, WHISparam)
 
 SwPlot = 0;
 
@@ -19,7 +20,7 @@ GainReductdB = WHISparam.GainReductdB;
 % RatioGainReduct = RatioGainReduct.^4; %%%%  このようにすると、音が歪む方向へ。　ーーー　filterbankとのズレがある様子
 
 GCparam = WHISparam.GCparamHL;
-[NumCh LenFrameGC] = size(GainReductdB);
+[NumCh, LenFrameGC] = size(GainReductdB);
 
 %% %%%%%%%%%%%%%%%%%%%%%%%
 % Setup Analysis
@@ -29,7 +30,7 @@ fs  = WHISparam.fs;
 TVFparam.fs  = fs;
 TVFparam.Ctrl = 'ana';
 % TVFparam.Twin = 0.010; ずれる。default 0.020よりnoisyになるとも書いてある。
-[dummy, WinFrame, TVFparam ] = SimTimeVaryFilter_AnaSyn(SndIn,[],TVFparam); % default ana
+[~, WinFrame, TVFparam ] = SimTimeVaryFilter_AnaSyn(SndIn,[],TVFparam); % default ana
 
 %% %%%%%
 % convert  WHISparam.RatioGainReduct --> pwrAFG
@@ -133,7 +134,7 @@ end
 %% Synthesis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 TVFparam.Ctrl = 'syn';
-[SndOut WinFrame TVFparam ] = SimTimeVaryFilter_AnaSyn([],WinFrameMod,TVFparam);
+[SndOut, WinFrame, TVFparam ] = SimTimeVaryFilter_AnaSyn([],WinFrameMod,TVFparam);
 
 WHISparam.TVFparam = TVFparam;
 end

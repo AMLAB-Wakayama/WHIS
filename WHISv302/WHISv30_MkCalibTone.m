@@ -1,14 +1,15 @@
 %
-%     WHISv300 でCalbration toneの設定
-%     Irino, T.
-%     Created:  25 Jul 21　from HIsimFastGC_MkCalibTone 内容は全く同じ　パラメータ名の変更
-%     Modified: 25 Jul 21     
-%     Modified: 10 Sep 21  introducing hanning taper window to reduce click sounds
-%     Modified: 17 Sep 21  tidy up
+%      WHISv300 でCalbration toneの設定
+%      Irino, T.
+%      Created:  25 Jul 2021　from HIsimFastGC_MkCalibTone 内容は全く同じ　パラメータ名の変更
+%      Modified: 25 Jul 2021     
+%      Modified: 10 Sep 2021  introducing hanning taper window to reduce click sounds
+%      Modified: 17 Sep 2021  tidy up
+%      Modified:  6  Mar 2022   WHISv300_func --> WHISv30_func 
 %
 %
 %
-function [CalibTone, WHISparam] = WHISv300_MkCalibTone(WHISparam)
+function [CalibTone, WHISparam] = WHISv30_MkCalibTone(WHISparam)
 
 fs = WHISparam.fs;
 WHISparam.CalibTone.Tsnd       = 5;                  % WHISparam.CalibTone.Duration から　Tsndに
