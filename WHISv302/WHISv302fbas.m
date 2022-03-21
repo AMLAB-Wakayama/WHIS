@@ -1,8 +1,10 @@
 %
-%      FBAnaSyn of WHIS: Wadai Hearing Impairment Simulator v300
-%      IRINO T.
-%      Created:  20 Oct  21 Separeted from the main body WHISv300
-%      Modified:  20 Oct  21 
+%       FBAnaSyn of WHIS: Wadai Hearing Impairment Simulator v301
+%       IRINO T.
+%       Created:  20 Oct  2021 Separeted from the main body WHISv300
+%       Modified:  20 Oct  2021 
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
 %
 
@@ -30,15 +32,15 @@ for nch = 1:NumCh
     CompressionHealthHL  = GCparamHL.HLoss.FB_CompressionHealth(nch);
     
     %%  %%%
-    %  Peripheral Hearing Loss   HL_total = HL_OHC + HL_IHC
+    %  Peripheral Hearing Loss   HL_total = HL_ACT + HL_PAS
     %%%%%
     PindB_HL = GCrespHL.LvldBframe(nch,:);
-    [dummy, IOfuncdB_HL] = GCFBv231_AsymFuncInOut(GCparamHL,GCrespHL, Fr1query, CompressionHealthHL,PindB_HL);
-    PindB_NH = GCFBv231_AsymFuncInOut_InvIOfunc(GCparamHL,GCrespHL, Fr1query, CompressionHealthNH,IOfuncdB_HL);
-    GainReductdB_OHC(nch,:) = -(PindB_HL - PindB_NH);         % < 0  OHC  negative
+    [dummy, IOfuncdB_HL] = GCFBv23_AsymFuncInOut(GCparamHL,GCrespHL, Fr1query, CompressionHealthHL,PindB_HL);
+    PindB_NH = GCFBv23_AsymFuncInOut_InvIOfunc(GCparamHL,GCrespHL, Fr1query, CompressionHealthNH,IOfuncdB_HL);
+    GainReductdB_ACT(nch,:) = -(PindB_HL - PindB_NH);         % < 0  ACT  negative
 
-    GainReductdB_IHC(nch,:) = -GCparamHL.HLoss.FB_PinLossdB_IHC(nch)*ones(1,LenFrame);
-    GainReductdB(nch,:) = GainReductdB_OHC(nch,:) + GainReductdB_IHC(nch,:);
+    GainReductdB_PAS(nch,:) = -GCparamHL.HLoss.FB_PinLossdB_PAS(nch)*ones(1,LenFrame);
+    GainReductdB(nch,:) = GainReductdB_ACT(nch,:) + GainReductdB_PAS(nch,:);
     %dB上でのinterpolationの方が変化が小さいのでよさそう。ーーー　結果的にはあまりかわらない。
     GainReductdB_smpl = resample(GainReductdB(nch,:),GCparamHL.fs, GCparamHL.DynHPAF.fs);
     LenGRR = length(GainReductdB_smpl);
@@ -84,9 +86,9 @@ end
 % Synthesis
 %%%%%%%%%%
 DCparam.fs = GCparamHL.fs;   %　GCparamHLを使う：　fsや以下で使うGCparamNHの係数は同じなので。
-[scGCmodDC] = GCFBv231_DelayCmpnst(scGCmod,GCparamHL,DCparam); %% Filterbank 位相ズレ補正
+[scGCmodDC] = GCFBv23_DelayCmpnst(scGCmod,GCparamHL,DCparam); %% Filterbank 位相ズレ補正
 % GCparam.OutMidCrct の補正は必要。　
-SndHLoss = GCFBv231_SynthSnd(scGCmodDC,GCparamHL);   % OutMidFilterの逆補正はここでしている。
+SndHLoss = GCFBv23_SynthSnd(scGCmodDC,GCparamHL);   % OutMidFilterの逆補正はここでしている。
 
 % Level correction
 SndOut =10^(-AmpdB(2)/20)*SndHLoss;  % Eqlz2MeddisHCLevelを補正
@@ -95,19 +97,19 @@ if WHISparam.SwPlot == 1
     %% plot %%%%%%
     figure(10); clf;
     nchAll = 1:100;
-    GainRdB = mean(GainReductdB_OHC);
+    GainRdB = mean(GainReductdB_ACT);
     tFrame = (0:length(GainRdB)-1)/2000;
     subplot(4,1,1)
     plot((0:length(SrcSnd)-1)/fs,SrcSnd*100 + mean(GainRdB),tFrame,GainRdB);
     subplot(4,1,2)
-    imagesc(GainReductdB_OHC*(-1));
+    imagesc(GainReductdB_ACT*(-1));
     set(gca,'YDir','normal');
     subplot(4,1,3)
     %imagesc(GainReductdB_Dcmpnst*(-1));
     %set(gca,'YDir','normal');
     plot(nchAll, mean(GCrespHL.LvldBframe,2)); 
     subplot(4,1,4)
-    plot(nchAll, mean(GainReductdB,2), nchAll,mean(GainReductdB_OHC,2),'--',nchAll,mean(GainReductdB_IHC,2),'-.') 
+    plot(nchAll, mean(GainReductdB,2), nchAll,mean(GainReductdB_ACT,2),'--',nchAll,mean(GainReductdB_PAS,2),'-.') 
     
  end
 

@@ -4,13 +4,13 @@
 %% 和大模擬難聴システム  
 %% Copyright (c) 2010-20xx  Wakayama University   
 %% All rights reserved.　  
-%% by Toshio Irino , 5-Dec-2021   
+%% by Toshio Irino ,  20-Mar-2022
 %%    
 %% ======================================================================    
   
   
 本資料の内容：   
-1.  ソフトウェアの構成  
+1. ソフトウェアの構成  
 2. 模擬難聴システム(GUI version)の使い方  
 3. 模擬難聴、操作手順 
 4. Batch処理手順と対応ソフト  　  
@@ -23,27 +23,27 @@
   
 1. ソフトウェアの構成と設定  
   
-- 動作には、GCFBv231が必要です。以下のようにLocal directoryで設定してください。  
-   - [LocalDir]/WHIS/WHISv300  
-   - [LocalDir]/gammachirp-filterbank/GCFBv231   
-   - Hearing lossの設定は、GCFBv231を使っています。そちらを参照のこと  
+- 動作には、GCFBv233が必要です。以下のようにLocal directoryで設定してください。  
+   - [LocalDir]/WHIS/WHISv301  
+   - [LocalDir]/gammachirp-filterbank/GCFBv233   
+   - Hearing lossの設定は、GCFBv233を使っています。そちらを参照のこと  
   
-- WHISv300_GUI :  GUI version of WHIS  
+- WHIS_GUI :  GUI version of WHIS  
   
-- WHISv300_Batch: Batch version of WHIS  
+- WHISv30_Batch: Batch version of WHIS  
   
-- testWHISv300v226_Batch.m : test program for WHISv300 (dtvf & fbas) & v226 for comparison  
+- testWHISv302v226_Batch.m : test program for WHISv301 (dtvf & fbas) & v226 for comparison  
   
 - Snd_Hello123.wav :   Sample sound  
   
-- ShowIOfunc_WHISv300CamHLS_GCFBv231.m   
+- ShowIOfunc_WHISv301CamHLS_GCFBv233.m   
     Calculation of Input-Output function using GCFB, WHIS, and CambHLS_(Not provided here)  
   
-- ShowSpec_WHISv300CamHLS_GCFBv231.m  
+- ShowSpec_WHISv301CamHLS_GCFBv233.m  
     Calculation of spectrogram using GCFB, WHIS, and CambHLS_(Not provided here)  
   
 - ShowIOfunc_GCFBWHISCamHLS.m  
-    Showing IO function after finishing ShowIOfunc_WHISv300CamHLS_GCFBv231.m  
+    Showing IO function after finishing ShowIOfunc_WHISv302CamHLS_GCFBv233.m  
   
 - There are some other programs.  
   
@@ -54,7 +54,7 @@
   
  - 起動法：    
  ＞＞ StartupWHIS    
- ＞＞ WHISv300_GUI    
+ ＞＞ WHIS_GUI    
  これにより、変数をclearし、WHIS_GUIを起動します。  
   
 - 作業directoryとして、以下が自動的に設定されます。（2019/1/12)  
@@ -64,7 +64,7 @@
   
 - 立ち上がると、まず音圧キャリブレーションが必要です。    
   
-- 音圧キャリブレーション  (WHISv300)   
+- 音圧キャリブレーション  (WHIS_GUI)   
    １）　一番下パネルの[Playボタン]を押して、基準となるキャリブレーショントーン( sin波, 1kHz, 80dB)を出す。  
     - ５秒間流れます。    
     - 音圧設定の意味合いを理解するためには、以下の「4. 内部処理と音圧レベル」をご参照ください。  
@@ -105,9 +105,9 @@
   
 4. Batch処理手順と対応ソフト　 
   
-- WHISv300_Batch  
+- WHISv30_Batch  
   - 聴覚心理実験用の音声刺激音をを自動的に生成するために、Batch処理用の関数を用意しました。  
-  - 使用法は、testWHISv300v226_Batch.m を実行/内容を見て確認。  
+  - 使用法は、testWHISv302v226_Batch.m を実行/内容を見て確認。  
   
 ---  
   
@@ -118,7 +118,7 @@
   
 - 内部では、ディジタルのRMS level で　-26 dBのsin 波をCalibration toneとしています。  
 - この音が、外界で測定した時に音圧レベルSPL (Leq)で何 dBとなるかを設定します。  
-- この模擬難聴システムGUI WHISv300_GUIの場合には、これを80 dBとしました。  
+- この模擬難聴システムGUI WHIS_GUIの場合には、これを80 dBとしました。  
   -	[内部RMS level  -26 dB]  == [外界での音圧レベルSPL (Leq) 80 dB]  
   - これが、模擬難聴システムでのすべての音圧の基準となります。  
   
@@ -126,7 +126,7 @@
 この音は、外界のSPL で何 dBでしょうか？  
   - 答は：　　x + 26 + 80 (dB)  
   
-- WHISv300_Batchの場合は、Calibration toneのSPLを任意に選べます。  
+- WHISv30_Batchの場合は、Calibration toneのSPLを任意に選べます。  
   
 - WHISの音声に関してのnormalizationはRMS値(Leq)で行っています。A特性等(L_Aeq)の話を入れるとどんどんややこしくなるのでいれていません。  
   
@@ -178,7 +178,9 @@
 ---  
   
 - 本資料の情報   
-最終更新日：　2022/2/27 更新 (adding Document）   
+最終更新日：　2022/3/20 (WHISv302)
+履歴：　2022/3/6 (WHISv301)
+履歴：　2022/2/27 更新 (adding Document）   
 履歴：　2021/12/5 更新 (WHISv300対応）  
 履歴：　2020/9/5 更新 (WHIS_v225で起動するように記述変更）  
 履歴：　2019/1/12 更新 (作業directoryに関して追加）  

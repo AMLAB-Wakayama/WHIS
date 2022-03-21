@@ -1,23 +1,25 @@
 %
-%  testWHISv300_Batch
-%  Irino, T.
-%  Created:   9 Feb 21 (from testHISimBatch)
-%  Modified:  9 Feb 21
-%  Modified: 25 Jul 21
-%  Modified: 17 Aug 21
-%  Modified:  2 Sep 21
-%  Modified: 10 Sep 21
-%  Modified:  26 Sep 21
-%  Modified:  10 Oct 21
-%  Modified:  20 Oct 21
-%  Modified:  21 Oct 21 renamed testWHISv300v226_Batch.m
-%  Modified:   2 Dec 21  debug OutMidCrct
+%       testWHISv302_Batch
+%       Irino, T.
+%       Created:   9 Feb 2021 (from testHISimBatch)
+%       Modified:  9 Feb 2021
+%       Modified: 25 Jul 2021
+%       Modified: 17 Aug 2021
+%       Modified:   2 Sep 2021
+%       Modified: 10 Sep 2021
+%       Modified:  26 Sep 2021
+%       Modified:  10 Oct 2021
+%       Modified:  20 Oct 2021
+%       Modified:  21 Oct 2021 renamed testWHISv300v226_Batch.m
+%       Modified:   2 Dec 2021  debug OutMidCrct
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
 %
 clear
 clf
 
-StartupWHIS
+StartupWHIS;
 DirProg = fileparts(which(mfilename));
 DirData = [getenv('HOME') '/Data/WHIS/'];
 DirSnd = [ DirData  '/Sound/'];
@@ -29,23 +31,7 @@ if exist([DirSnd NameSrcSnd '.wav']) == 0
     unix(str);
 end
 
-SwSnd = 1;
-if SwSnd == 2
-    % NameSrcSnd = 'Snd_PulseTrain';  % 48 kHz
-    if exist([DirProg NameSrcSnd '.wav']) == 0
-        Fo = 100;
-        fs = 48000;
-        Tsnd = 0.2;
-        LenSnd = Tsnd*fs;
-        Snd = ones(1,LenSnd)*0.00001;
-        nPulse = [10:fs/Fo:LenSnd];
-        Snd(nPulse) = 0.5;
-        audiowrite([DirSnd NameSrcSnd '.wav'],Snd,fs,'BitsPerSample',24);
-    end
-end;
-
 NameSnd = [DirSnd NameSrcSnd ];
-
 InfoSnd = audioinfo([NameSnd '.wav']);
 % 16 bit data
 [SndIn, fs] = audioread([NameSnd '.wav']);
@@ -84,13 +70,13 @@ for nCmprsHlth = 1:length(CmprsHlthList)
     
     for SwWHISversion= SwWHISversionList
         if SwWHISversion == 1
-            StrWHIS = '_WHISv300dtvf';
+            StrWHIS = '_WHISv302dtvf';
             WHISparam.SynthMethod = 'DTVF';
-            [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv300_Batch(SndIn, WHISparam) ;
+            [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv30_Batch(SndIn, WHISparam) ;
         elseif SwWHISversion == 2
-            StrWHIS = '_WHISv300fabs';
+            StrWHIS = '_WHISv302fabs';
             WHISparam.SynthMethod = 'FBAnaSyn';
-            [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv300_Batch(SndIn, WHISparam) ;
+            [SndWHIS,SrcSnd,RecCalibTone,WHISparam1] = WHISv30_Batch(SndIn, WHISparam) ;
         elseif SwWHISversion == 3  % check the previous version
             StrEMLoss = '';
             StrWHIS = '_WHISv226';
@@ -150,9 +136,11 @@ for nCmprsHlth = 1:length(CmprsHlthList)
     end
 end
 
-%% %%%%%%%
-% Trash
-%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Trash
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 %getComp = 0; % 0 %
 %WHISparam.getComp = 50; % 50 %
@@ -167,3 +155,18 @@ end
 
 % NameSrcSnd = 'WHIS_Rec20211012T103524';
 
+
+% SwSnd = 1;
+% if SwSnd == 2
+%     % NameSrcSnd = 'Snd_PulseTrain';  % 48 kHz
+%     if exist([DirProg NameSrcSnd '.wav']) == 0
+%         Fo = 100;
+%         fs = 48000;
+%         Tsnd = 0.2;
+%         LenSnd = Tsnd*fs;
+%         Snd = ones(1,LenSnd)*0.00001;
+%         nPulse = [10:fs/Fo:LenSnd];
+%         Snd(nPulse) = 0.5;
+%         audiowrite([DirSnd NameSrcSnd '.wav'],Snd,fs,'BitsPerSample',24);
+%     end
+% end

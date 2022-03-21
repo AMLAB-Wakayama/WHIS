@@ -1,37 +1,41 @@
 %
-%  Plot  IOfunction by WHIS and GCFBv231
-%  Irino, T.
-%  Created:  22 Aug 21
-%  Modified:  22 Aug 21
-%  Modified:  10 Sep 21
-%  Modified:  26 Sep 21
-%  Modified:  12 Oct 21
-%  Modified:  20 Oct 21
-%  Modified:  21 Oct 21 renamed ShowIOfunc_WHISv300v225_GCFBv231
-%  Modified:   1 Nov 21 tidy up
-%  Modified:   4 Nov 21 WHISv226 (FreeField vesion) was introduced
-%  Modified:  28 Nov 21 mod  WHISv226
+%       Plot  IOfunction by WHIS and GCFBv233
+%       Irino, T.
+%       Created:  22 Aug 2021
+%       Modified:  22 Aug 2021
+%       Modified:  10 Sep 2021
+%       Modified:  26 Sep 2021
+%       Modified:  12 Oct 2021
+%       Modified:  20 Oct 2021
+%       Modified:  21 Oct 2021 renamed ShowIOfunc_WHISv300v225_GCFBv231
+%       Modified:   1 Nov 2021 tidy up
+%       Modified:   4 Nov 2021 WHISv226 (FreeField vesion) was introduced
+%       Modified:  28 Nov 2021 mod  WHISv226
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
 clear
 
 % startup directory setting
-StartupWHIS
-DirProg = fileparts(which(mfilename)); % このプログラムがあるところ
+[DirProg, DirGCFB] = StartupWHIS;  % Directory of this program and GCFB
+% DirProg = fileparts(which(mfilename));
 % DirProg1 = '/Users/irino/Google ドライブ/GitHub/WHIS/WHISv300'
 % strcmp(DirProg,DirProg1)
 DirData = [getenv('HOME') '/Data/WHIS/'];
 DirSnd = [ DirData  '/Sound/'];
 if exist(DirSnd) == 0, mkdir(DirSnd); end
-
-% DirFig = [DirData '/Fig/'];
 DirFig = [DirProg '/Fig/'];
 DirFigWHIS = DirFig;
 if exist(DirFig) == 0, mkdir(DirFig); end
+
+%Add path to WHISv225/226
+addpath([DirProg  '/../WHISv226/']);  % WHISv225/226
+
+%Add path to CamHLS
 DirGdrive = '/Volumes/GoogleDrive/マイドライブ/';
 if exist(DirGdrive) == 0
     DirGdrive = [getenv('HOME')   '/Google ドライブ/'];
 end
-addpath([DirGdrive  '/YamasemiWork/m-file/WHISv226/']);  % WHISv225/226
 addpath([DirGdrive  '/YamasemiWork/m-file/WHIS_CamHLS/']); %CamHLS
 
 
@@ -39,7 +43,7 @@ fs = 48000;
 %%%% GCFB parameter setting %%%%
 GCparam = []; % reset all
 GCparam.fs = fs;              % 一応設定
-% このプログラム中のNHのGCFBv231に必要なものもおく
+% このプログラム中のNHのGCFBv233に必要なものもおく
 GCparam.NumCh  = 100;
 GCparam.FRange = [100, 12000];
 GCparam.OutMidCrct = 'No';  %cochlear inputを見るときは、ELCをいれないこと。
@@ -72,9 +76,9 @@ WHISparam.CalibTone.SPLdB = 65;
 %Param.CmprsHlthList = [0 1 0.5];
 % WHISparam.HLoss.Type = 'HL2'; 
 WHISparam.HLoss.Type = 'HL2_Tsuiki2002_80yr';
-WHISparam.HLoss.Type = 'HL3'; 
+% WHISparam.HLoss.Type = 'HL3'; 
 GCparam.HLoss.Type = WHISparam.HLoss.Type; 
-[GCparam2] = GCFBv231_HearingLoss(GCparam); % GCparam.HLossの設定を取るだけ
+[GCparam2] = GCFBv23_HearingLoss(GCparam); % GCparam.HLossの設定を取るだけ
 WHISparam.HLoss.FaudgramList = GCparam2.HLoss.FaudgramList;
 WHISparam.HLoss.HearingLeveldB = GCparam2.HLoss.HearingLeveldB;
 WHISparam.HLoss.SwType = GCparam2.HLoss.SwType;
@@ -85,16 +89,15 @@ WHISparam.HLoss.Type = GCparam2.HLoss.Type;
 WHISparam.AllowDownSampling = 0;
 
 
-
 %% %%%%%%%%%%%%%
 % Processing
 %%%%%%%%%%%%%%
 
 for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
-    if        SwWHISversion == 0, StrWHIS = 'GCFBv231'; % GCFB -- Not WHIS
-    elseif SwWHISversion == 1, StrWHIS = 'WHISv300dtvf'; % direct tv filter
-    elseif SwWHISversion == 2  StrWHIS = 'WHISv300fbas'; % FB ana/syn
-    elseif SwWHISversion == 3  StrWHIS = 'WHISv225'; % direct tv filter
+    if       SwWHISversion == 0, StrWHIS = 'GCFBv233'; % GCFB -- Not WHIS
+    elseif SwWHISversion == 1, StrWHIS = 'WHISv301dtvf'; % direct tv filter
+    elseif SwWHISversion == 2  StrWHIS = 'WHISv301fbas'; % FB ana/syn
+    elseif SwWHISversion == 3  StrWHIS = 'WHISv226'; % direct tv filter
     elseif SwWHISversion == 4  StrWHIS = 'CamHLS';  % Cambridge Hearing Loss Simulator by MAS
     end
     
@@ -112,24 +115,24 @@ for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
     end
     if SwWHISversion >=1
         DirFig = DirFigWHIS;
-        NameFig = ['Fig_IOfunc_' StrWHIS '_GCFB231_NH+' WHISparam.HLoss.Type StrOMC];
+        NameFig = ['Fig_IOfunc_' StrWHIS '_GCFB233_NH+' WHISparam.HLoss.Type StrOMC];
     elseif SwWHISversion == 0
-        DirFig = [DirProg '/../../GCFB/GCFBv231/Fig/'];
+        DirFig = [DirGCFB '/Fig/'];
         NameFig = ['Fig_IOfunc_ExctPtn_' WHISparam.HLoss.Type StrOMC];
     end
     DirNameFig = [DirFig  NameFig];
     disp([' '])
-    disp(['NameFig : ' NameFig])
+    % disp(['NameFig : ' NameFig])
     
     if exist([DirNameFig '.mat']) == 2
-        disp('--- loading Rslt ---')
+        disp(['=== load Rslt: ' NameFig ' ==='])
         load(DirNameFig)
         Param = Rslt.Param;
         if isfield(Param,'SPLdBlist') == 0  % for compativility
             Param.SPLdBlist = Param.SigSPLlist;
         end
     else
-        disp('--- Caliculation ---')
+        disp(['=== Calculation: ' NameFig ' ==='])
         for nfc = 1:length(Param.fcList)
             fc = Param.fcList(nfc);
             SndOrig = sin(2*pi*fc*(0:Tsnd*fs-1)/fs);
@@ -151,20 +154,21 @@ for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
                     %  WHISによる模擬難聴音合成
                     %%%%%%%%%%%%%%%%%%
                     
-                    [CalibTone, WHISparam]  = WHISv300_MkCalibTone(WHISparam);
+                    [CalibTone, WHISparam]  = WHISv30_MkCalibTone(WHISparam);
                     RecordedCalibTone =  CalibTone;
-                    [SrcSnd4Check, WHISparam] = WHISv300_GetSrcSndNrmlz2CalibTone(SndOrig,RecordedCalibTone,WHISparam);
+                    [SrcSnd4Check, WHISparam] = WHISv30_GetSrcSndNrmlz2CalibTone(SndOrig,RecordedCalibTone,WHISparam);
                     % SrcSnd4Check はチェック用
                     
                     WHISparam.StrWHIS = StrWHIS;
                     if SwWHISversion == 0
-                        error('Execute ShowIOfunc_ExctPtn_GCFBv231.m in GCFBv231 in advance. ' )
-                    elseif SwWHISversion == 1 %  WHISv300dtvf direct tv filter
+                        % Loadに失敗していると、ここに来て計算を求める。
+                        error('Execute ShowIOfunc_ExctPtn_GCFBv23.m in GCFBv233 in advance. ' )
+                    elseif SwWHISversion == 1 %  WHISv30dtvf direct tv filter
                         WHISparam.SynthMethod = 'DTVF';
-                        [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv300_Batch(SndOrig, WHISparam);
-                    elseif SwWHISversion == 2 % WHISv300fbas FB ana/syn
+                        [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv30_Batch(SndOrig, WHISparam);
+                    elseif SwWHISversion == 2 % WHISv30fbas FB ana/syn
                         WHISparam.SynthMethod = 'FBAnaSyn';
-                        [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv300_Batch(SndOrig, WHISparam);
+                        [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv30_Batch(SndOrig, WHISparam);
                     elseif SwWHISversion == 3 % WHISv225 direct tv filter
                         ParamHI.fs = fs;
                         ParamHI.AudiogramNum = str2num(WHISparam.HLoss.Type(3));  % WHISparam.HLoss.Type = 'HL2'; 80yr
@@ -212,7 +216,7 @@ for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
                         GCparam.HLoss.Type = 'NH';
                         GCparam.HLoss.CompressionHealth = 1; %
                         %   Snd =  Eqlz2MeddisHCLevel(SndOrig,SigSPL);
-                        [cGCframe, scGCsmpl,GCparamNH,GCresp] = GCFBv231(SndAna,GCparam);
+                        [cGCframe, scGCsmpl,GCparamNH,GCresp] = GCFBv233(SndAna,GCparam);
                         tm = toc;
                         disp(['Elapsed time is ' num2str(tm,4) ' (sec) = ' ...
                             num2str(tm/Tsnd,4) ' times RealTime.']);
@@ -258,7 +262,12 @@ for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
             end %  for CmprsHlth = Param.CmprsHlthList
         end % for nfc = 1:length(Param.fcList)
         Rslt.Param = Param;
-        save(DirNameFig,'Rslt');
+        try
+            save(DirNameFig,'Rslt');
+        catch
+            warning('save "Rslt" failed: check and  save again');
+        end
+
     end % if exist(NameFig)
     
     

@@ -1,14 +1,16 @@
 %
-%   Batch execution function for WHISv300
-%   Irino, T.
-%   Created:   14 Feb 21
-%   Modified:   14 Feb 21
-%   Modified:   25 Jul  21  (HISparam --> WHISparam)
-%   Modified:   2 Sep  21   using GCFBv231
-%   Modified:  10 Sep  21   using GCFBv231
-%   Modified:  20 Oct  21   dtvfとFBAnaSynの分岐はWHISv300の中に。
+%       Batch execution function for WHISv30x
+%       Irino, T.
+%       Created:   14 Feb 2021
+%       Modified:  14 Feb 2021
+%       Modified:  25 Jul  2021  (HISparam --> WHISparam)
+%       Modified:   2 Sep 2021   using GCFBv231
+%       Modified:  10 Sep 2021   using GCFBv231
+%       Modified:  20 Oct  2021   dtvfとFBAnaSynの分岐はWHISv300の中に。
+%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
-%   function [SndWHIS,SrcSnd,RecordedCalibTone,WHISparam] = WHISv300_Batch(SndLoad, WHISparam)
+%   function [SndWHIS,SrcSnd,RecordedCalibTone,WHISparam] = WHISv30_Batch(SndLoad, WHISparam)
 %   INPUT:  SndLoad : input sound
 %           WHISparam : parameters
 %                        HLoss.Type: audiogram select (HL1~HL*)   (e.g. 'HL2' 80yr-male)
@@ -34,7 +36,7 @@
 %                  対応づけがちゃんとできていない場合、計算機の内部処理は間違えます。
 %
 %
-function [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv300_Batch(SndLoad, WHISparam)
+function [SndWHIS,SrcSnd,CalibTone,WHISparam] = WHISv30_Batch(SndLoad, WHISparam)
 
 [mm, nn] = size(SndLoad);
 if min(mm, nn)  > 1
@@ -59,12 +61,12 @@ end
 disp(['CalibTone SPLdB = '  num2str(WHISparam.CalibTone.SPLdB) ' (dB)']);
 disp(['SrcSnd  SPLdB    = '  num2str(WHISparam.SrcSnd.SPLdB) ' (dB)']);
 
-[CalibTone, WHISparam]  = WHISv300_MkCalibTone(WHISparam);
+[CalibTone, WHISparam]  = WHISv30_MkCalibTone(WHISparam);
 RecordedCalibTone =  CalibTone;
 % Batchでは、CalibToneを外部から録音できないので、同じとみなす。(GUIでは一致するように録音するが）
 % 処理の確認では、ここにsaveされたRecordedCalibToneを読み込む。
 
-[SrcSnd, WHISparam] = WHISv300_GetSrcSndNrmlz2CalibTone(SndLoad,RecordedCalibTone,WHISparam);
+[SrcSnd, WHISparam] = WHISv30_GetSrcSndNrmlz2CalibTone(SndLoad,RecordedCalibTone,WHISparam);
 
 % WHISparam.RecordedCalibTone =  CalibTone;
 % WHISparam.SndLoad = SndLoad;
@@ -74,7 +76,7 @@ RecordedCalibTone =  CalibTone;
 % 難聴のパラメータ設定
 % default値はなしにする。--- WHISv300で、設定なしの場合errorが出るようにした。
 %%%%%%%%%%%%%%%%%%
-[SndWHIS, WHISparam] = WHISv300(SrcSnd, WHISparam); 
+[SndWHIS, WHISparam] = WHISv302(SrcSnd, WHISparam); 
 
 return
 

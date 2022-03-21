@@ -1,15 +1,16 @@
 %
 %     HIsimFastGC_GUI でParamHIを初期設定する
 %     Irino, T.
-%     Created:  7 Jul 18
-%     Modified: 7 Jul 18
-%     Modified: 11 Jul 18 (ParamHI_Inputを受け取り継承できるように）
-%     Modified:   5 Aug 18 (ParamHI_Inputを受け取り継承。上書きのバグ修正）
-%     Modified: 16 Oct 18 （重要なので音圧設定をプログラムの上に持ってきて、見やすく）
-%     Modified: 18 Oct 18 (defaultのセッティングを禁止：必ず指定させるように。間違い防止。）
-%     Modified:  20 Oct 18  (IT, ParamHI.SwGUIbatch = 'GUI' or 'Batch'の明示必須に)
-%     Modified:  27 Dec 18  (IT, バグfix)
-%     Modified:  19 Dec 19  (IT, ParamHI.SrcSndSPLdB_default導入)
+%     Created:   7 Jul  2018
+%     Modified:  7 Jul  2018
+%     Modified: 11 Jul 2018 (ParamHI_Inputを受け取り継承できるように）
+%     Modified:  5 Aug 2018 (ParamHI_Inputを受け取り継承。上書きのバグ修正）
+%     Modified: 16 Oct 2018 （重要なので音圧設定をプログラムの上に持ってきて、見やすく）
+%     Modified: 18 Oct 2018 (defaultのセッティングを禁止：必ず指定させるように。間違い防止。）
+%     Modified:  20 Oct 2018  (IT, ParamHI.SwGUIbatch = 'GUI' or 'Batch'の明示必須に)
+%     Modified:  27 Dec 2018  (IT, バグfix)
+%     Modified:  19 Dec 2019  (IT, ParamHI.SrcSndSPLdB_default導入)
+%     Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
 %  
 %     ParamHI.AudiogramNum : audiogram select
 %                 1.example 1
@@ -23,11 +24,11 @@
 %                 9.手動入力　manual input%
 %
 %
-function ParamHI = HIsimFastGC_InitParamHI(ParamHI_Input);
+function ParamHI = WHISv30_InitParamHI(ParamHI_Input)
 
-if nargin < 1,
+if nargin < 1
     error('paramHI_Inputは必須パラメータ.');
-end;
+end
 ParamHI = ParamHI_Input;
 
 ParamHI.SwKeepSnd = 1;  % keep sound for debugging
@@ -52,7 +53,7 @@ if strcmp(ParamHI.SwGUIbatch,'GUI') == 1   % GUI版の場合
     
 elseif   strcmp(ParamHI.SwGUIbatch,'Batch') == 1 % Batch版の場合  
     %  default値は無し。必ず指定すること。
-    if isfield(ParamHI,'SPLdB_CalibTone') == 0, 
+    if isfield(ParamHI,'SPLdB_CalibTone') == 0
         % ディジタルレベルと外界の音圧との対応付けをする。
         %        消去： ParamHI.SPLdB_CalibTone = 80; default値を禁止
         % disp('      - HIsimFastGC_MkCalibTone(ParamHI); の ParamHI.CalibTone_RMSDigitalLeveldB==-26');
@@ -65,7 +66,7 @@ elseif   strcmp(ParamHI.SwGUIbatch,'Batch') == 1 % Batch版の場合
         disp('      - CalibToneが[Sin1kHz-26dB]ではない場合は、[Sin1kHz-26dB]に対応する音圧を計算して設定.');
         error('設定エラー.   上記の記述を参考に設定すること.');
     end;
-    if isfield(ParamHI,'SrcSndSPLdB') == 0,
+    if isfield(ParamHI,'SrcSndSPLdB') == 0
         % SrcSndのRMSレベルを設定
         %    消去： ParamHI.SrcSndSPLdB = 65; default値は禁止
         warning('*********  Error **************');
@@ -76,7 +77,7 @@ elseif   strcmp(ParamHI.SwGUIbatch,'Batch') == 1 % Batch版の場合
 
 else
     error('Specify ParamHI.SwGUIbatch :  "GUI" or  "Batch".');
-end;   %if strcmp(ParamHI.SwGUIbatch,'GUI') == 1
+end   %if strcmp(ParamHI.SwGUIbatch,'GUI') == 1
 
 StrSPL =  int2str(ParamHI.SPLdB_CalibTone);
 ParamHI.CalibTextLabel   = cellstr([{['Set to ' StrSPL ' dB']}, {[ StrSPL ' dBに設定']}]);  
@@ -93,7 +94,7 @@ ParamHI.CalibTextLabel   = cellstr([{['Set to ' StrSPL ' dB']}, {[ StrSPL ' dBに
 if isfield(ParamHI,'SwAmpCmpnst')  == 0,
     % defaultは、新規設定版。12 Dec 2018  
     ParamHI.SwAmpCmpnst = 2;  % default  ーー　Table lookup   12 Dec 2018  
-end; 
+end
 
 
 %%  %%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,7 +166,7 @@ ParamHI.Table_HLdB_DegreeCompressionPreSet =  [ ...
 % % %[125,            250,         500,       1000,        2000,       4000,        8000]
   
 
-if ParamHI.SwAmpCmpnst == 2;
+if ParamHI.SwAmpCmpnst == 2
     % 
     % ParamHI.Table_HLdB_DegreeCompressionPreSetは、0dB HLからの値にする。
     % 計算がわかりにくく、操作上もHL 0dBからの方が直感的。   
@@ -182,7 +183,10 @@ end
 ParamHI.SwNoLoadSound4Exp = 0; % 通常モード
 %ParamHI.SwNoLoadSound4Exp = 1; % 明瞭音声発話実験用
 
-return;
+return
+
+end
+
 
 
 

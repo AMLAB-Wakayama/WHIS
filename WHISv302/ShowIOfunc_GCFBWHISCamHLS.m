@@ -1,10 +1,11 @@
 %
-%   ShowIOfunction of GCFB-WHIS-CamHLS and compare AbsThr 
-%    Irino, T.
-%   Created:   13 Oct 21
-%   Modified:  13 Oct 21
-%   Modified:    9 Nov 21
-%   Modified:  11 Nov 21
+%       ShowIOfunction of GCFB-WHIS-CamHLS and compare AbsThr 
+%       Irino, T.
+%       Created:   13 Oct 21
+%       Modified:  13 Oct 21
+%       Modified:    9 Nov 21
+%       Modified:  11 Nov 21
+%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %
 %
 clear
@@ -16,10 +17,10 @@ DirProg = fileparts(which(mfilename)); % このプログラムがあるところ
 %DirFigWHIS = [DirProg '/Fig/'];
 DirFigWHIS = [DirProg '/_Local/'];
 
-DirFigGCFB = [DirProg '/../../gammachirp-filterbank/GCFBv231/_Local/'];
+DirFigGCFB = [DirProg '/../../gammachirp-filterbank/GCFBv233/_Local/'];
 NameFileHdr = 'Fig_IOfunc_';
 GCparam.HLoss.Type = 'HL2_Tsuiki2002_80yr';
-[GCparam2] = GCFBv231_HearingLoss(GCparam); % GCparam.HLossの設定を取るだけ
+[GCparam2] = GCFBv233_HearingLoss(GCparam); % GCparam.HLossの設定を取るだけ
 WHISparam.HLoss.FaudgramList = GCparam2.HLoss.FaudgramList;
 WHISparam.HLoss.HearingLeveldB = GCparam2.HLoss.HearingLeveldB;
 
@@ -35,7 +36,7 @@ cnt = 0;
 cntP = 0;
 for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
     if  SwWHISversion == 0
-        StrWHIS = 'GCFBv231';
+        StrWHIS = 'GCFBv233'; % GCFB -- Not WHIS here
         DirFig = DirFigGCFB;
         NameFile = [NameFileHdr 'ExctPtn_' GCparam.HLoss.Type];
     else
@@ -45,7 +46,7 @@ for SwWHISversion = 0:4 % 0:2 4% 1:4  % 1:3
         elseif SwWHISversion == 3, StrWHIS = 'WHISv225'; % direct tv filter
         elseif SwWHISversion == 4, StrWHIS = 'CamHLS';  % Cambridge Hearing Loss Simulator by MAS
         end
-        StrGCFB = 'GCFB231'; % 'GCFBv231'; % GCFB -- Not WHIS
+        StrGCFB = 'GCFB233'; 
         NameFile = [NameFileHdr StrWHIS '_' StrGCFB  '_NH+' GCparam.HLoss.Type];
     end
     load([DirFig NameFile])
@@ -142,11 +143,5 @@ DiffFromGCFB_HL = Diff_AbsThr_HL - Diff_AbsThr_HL(1,:,:)
 RMSerrorFromGCFB_HL = rms(DiffFromGCFB_HL,2)
 
 
-%     if nnn == 0, load([DirFigGCFB 'Fig_IOfunc_ExctPtn_HL2_Tsuiki2002_80yr.mat']);
-%     elseif nnn == 1, load([DirFig 'Fig_IOfunc_WHISv300dtvf_GCFB231_NH+HL2_Tsuiki2002_80yr.mat']);
-%     elseif nnn == 2, load([DirFig 'Fig_IOfunc_WHISv300fbas_GCFB231_NH+HL2_Tsuiki2002_80yr.mat']);
-%     elseif nnn == 3, load([DirFig 'Fig_IOfunc_WHISv225_GCFB231_NH+HL2_Tsuiki2002_80yr.mat']);
-%     elseif nnn == 3, load([DirFig 'Fig_IOfunc_CamHLS_GCFB231_NH+HL2_Tsuiki2002_80yr.mat']);
-%     end
 
 

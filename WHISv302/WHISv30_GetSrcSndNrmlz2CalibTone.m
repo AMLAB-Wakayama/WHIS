@@ -1,10 +1,11 @@
 %
 %     WHISv300   へ import   HIsimFastGC_GUIで Normalize re. CalibTone
 %     Irino, T.
-%     Created:  25 Jul 21  ( 名称変更　From  HIsimFastGC_GetSrcSndNrmlz2CalibTone(ParamHI)  Created:  7 Jul 18)
-%     Modified:  25 Jul 21 %   変数名を整理。paramHI --> WHISparam
-%     Modified:  10 Sep 21 % 入出力パラメータを変更：  SoundはParameterではないので、WHISparamから分離
-%     Modified:  30 Sep 21 % LenTruncateの導入
+%     Created:   25 Jul 2021  ( 名称変更　From  HIsimFastGC_GetSrcSndNrmlz2CalibTone(ParamHI)  Created:  7 Jul 18)
+%     Modified:  25 Jul 2021 %   変数名を整理。paramHI --> WHISparam
+%     Modified:  10 Sep 2021 % 入出力パラメータを変更：  SoundはParameterではないので、WHISparamから分離
+%     Modified:  30 Sep 2021 % LenTruncateの導入
+%     Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
 %
 %     function [SrcSnd, WHISparam] = WHISv300_GetSrcSndNrmlz2CalibTone(SndLoad,RecCalibTone,WHISparam)
 %     INPUT:  SndLoad:  入力された音
@@ -26,7 +27,7 @@
 %
 %
 %
-function [SrcSnd, WHISparam] = WHISv300_GetSrcSndNrmlz2CalibTone(SndLoad,RecCalibTone,WHISparam)
+function [SrcSnd, WHISparam] = WHISv30_GetSrcSndNrmlz2CalibTone(SndLoad,RecCalibTone,WHISparam)
 
     RMSlevel_SndLoad   = sqrt(mean(SndLoad.^2));
     % RecCalibToneの中央だけ抽出
