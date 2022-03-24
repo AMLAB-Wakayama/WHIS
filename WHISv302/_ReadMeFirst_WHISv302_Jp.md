@@ -4,7 +4,7 @@
 %% 和大模擬難聴システム  
 %% Copyright (c) 2010-20xx  Wakayama University   
 %% All rights reserved.　  
-%% by Toshio Irino ,  20-Mar-2022
+%% by Toshio Irino ,  24-Mar-2022
 %%    
 %% ======================================================================    
   
@@ -35,15 +35,6 @@
 - testWHISv302v226_Batch.m : test program for WHISv301 (dtvf & fbas) & v226 for comparison  
   
 - Snd_Hello123.wav :   Sample sound  
-  
-- ShowIOfunc_WHISv301CamHLS_GCFBv233.m   
-    Calculation of Input-Output function using GCFB, WHIS, and CambHLS_(Not provided here)  
-  
-- ShowSpec_WHISv301CamHLS_GCFBv233.m  
-    Calculation of spectrogram using GCFB, WHIS, and CambHLS_(Not provided here)  
-  
-- ShowIOfunc_GCFBWHISCamHLS.m  
-    Showing IO function after finishing ShowIOfunc_WHISv302CamHLS_GCFBv233.m  
   
 - There are some other programs.  
   

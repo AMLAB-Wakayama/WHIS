@@ -4,7 +4,7 @@
 %% 和大模擬難聴システム  
 %% Copyright (c) 2010-20xx  Wakayama University   
 %% All rights reserved.  
-%% by Toshio Irino ,  20-Mar-2022
+%% by Toshio Irino ,  24-Mar-2022
 %%    
 %% ======================================================================   
   
@@ -26,15 +26,6 @@
 - StartupWHIS.m : setting path for tools of WHIS and GCFB  
   
 - Snd_Hello123.wav :   Sample sound  
-  
-- ShowIOfunc_WHISv302CamHLS_GCFBv233.m   
-    Calculation of Input-Output function using GCFB, WHIS, and CambHLS_(Not provided here)  
-  
-- ShowSpec_WHISv302CamHLS_GCFBv233.m   
-    Calculation of spectrogram using GCFB, WHIS, and CambHLS_(Not provided here)  
-  
-- ShowIOfunc_GCFBWHISCamHLS.m  
-    Showing IO function after finishing ShowIOfunc_WHISv301CamHLS_GCFBv231.m  
   
 - There are some other programs.  
   
