@@ -16,7 +16,7 @@
 %  OUTPUT : SndMod : TV filtered Snd
 %
 %
-function [SndMod WinFrame TVFparam] = SimTimeVaryFilter_AnaSyn(Snd,WinFrame,TVFparam)   % No control, ValCtrl);
+function [SndMod, WinFrame, TVFparam] = SimTimeVaryFilter_AnaSyn(Snd,WinFrame,TVFparam)   % No control, ValCtrl);
 
 if nargin < 2, WinFrame = []; end
 if length(WinFrame) == 0,  TVFparam.Ctrl = 'ana'; end
