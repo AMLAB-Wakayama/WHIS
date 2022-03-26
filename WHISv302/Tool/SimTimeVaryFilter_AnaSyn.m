@@ -1,12 +1,13 @@
 %
-%   Simulated Time Vary Filtering
-%   Irino T.
-%   Created:   2 Dec 2013
-%   Modified:  2 Dec 2013 
-%   Modified: 26 Dec 2013 (default TVFparam.Twin = 0.020; in sec)
-%   Modified:  3 Jan 2014 ( Ana sqrt(hanning) * Syn sqrt(hanning))
-%   Modified: 12 Aug 2021 ( TVFparam.N --> Nshift, TVFparam.NumFrame --> LenFrame )
-%   Modified: 17 Sep 2021 ( パラメータ名の整理。TVFparam.NumFrame --- LenFrame　-- LenShift)
+%       Simulated Time Vary Filtering
+%       Irino T.
+%       Created:   2 Dec 2013
+%       Modified:  2 Dec 2013 
+%       Modified: 26 Dec 2013 (default TVFparam.Twin = 0.020; in sec)
+%       Modified:  3 Jan 2014 ( Ana sqrt(hanning) * Syn sqrt(hanning))
+%       Modified: 12 Aug 2021 ( TVFparam.N --> Nshift, TVFparam.NumFrame --> LenFrame )
+%       Modified: 17 Sep 2021 ( パラメータ名の整理。TVFparam.NumFrame --- LenFrame　-- LenShift)
+%       Modified: 26 Mar 2022 ( LenShift+1--> LenShift 問題。Framebaseだと問題が出る。修正）
 %
 %
 % function [SndMod TVFparam] = SimTimeVaryFilter(Snd,TVFparam); 
@@ -15,7 +16,7 @@
 %  OUTPUT : SndMod : TV filtered Snd
 %
 %
-function [SndMod WinFrame TVFparam] = SimTimeVaryFilter_AnaSyn(Snd,WinFrame,TVFparam)   % No control, ValCtrl);
+function [SndMod, WinFrame, TVFparam] = SimTimeVaryFilter_AnaSyn(Snd,WinFrame,TVFparam)   % No control, ValCtrl);
 
 if nargin < 2, WinFrame = []; end
 if length(WinFrame) == 0,  TVFparam.Ctrl = 'ana'; end
@@ -50,7 +51,7 @@ if strncmp(TVFparam.Ctrl,'ana',3) == 1
     end
 
     LenShift = TVFparam.Tshift*TVFparam.fs;  % = N
-    LenWin = 2*LenShift+1;
+    LenWin  = TVFparam.Twin*TVFparam.fs;    % debug 26 Mar 22 LenWin = 2*LenShift+1;    
     if  strcmp(TVFparam.NameWin,'hanning')
         WinAna = sqrt(hanning(LenWin));  % sqrt analysis - sqrt sybthesis
         WinSyn = WinAna;
@@ -63,16 +64,16 @@ if strncmp(TVFparam.Ctrl,'ana',3) == 1
     end
 
     LenSnd = length(Snd);
-    LenFrame = ceil(LenSnd/(LenShift+1))+1; % なぜ最後に+1??
+    LenFrame = ceil(LenSnd/LenShift)+1; % debug 26 Mar 22,    ceil(LenSnd/(LenShift+1))+1; % なぜ最後に+1??
     ZpadPre  = zeros(1,LenShift);
-    ZpadPost = zeros(1,LenFrame*(LenShift+1)-LenSnd);
+    ZpadPost = zeros(1,LenFrame*LenShift-LenSnd); % debug 26 Mar 22,  ZpadPost = zeros(1,LenFrame*(LenShift+1)-LenSnd);
     SndZp = [ZpadPre, Snd, ZpadPost]; % zeropad
     WinFrame = zeros(LenWin,LenFrame);
     
     for nf = 1:LenFrame
-        nRange = (nf-1)*(LenShift+1) + (1:LenWin);
+        nRange = (nf-1)*LenShift+ (1:LenWin);   % debug 26 Mar 22,  nRange = (nf-1)*(LenShift+1) + (1:LenWin);
         WinFrame(1:LenWin,nf) = SndZp(nRange)'.*WinAna;
-        NsmplSnd(nf) = (nf-1)*(LenShift+1)+1;
+        NsmplSnd(nf) = (nf-1)*LenShift+1;   % debug 26 Mar 22, NsmplSnd(nf) = (nf-1)*(LenShift+1)+1;
         % Some processing here
         % Synthesis 
         %    Snd2(nRange) = Snd2(nRange) + WinFrame;
@@ -89,7 +90,7 @@ if strncmp(TVFparam.Ctrl,'ana',3) == 1
     TVFparam.NumFrame = LenFrame; % 残す　Backward compativility
     TVFparam.LenSnd   = LenSnd;
     TVFparam.LenSndZp = length(SndZp);
-    TVFparam.NsmplSnd = NsmplSnd;
+    TVFparam.NsmplSnd = NsmplSnd;  % Sample point 番号
     TVFparam.ZpadPre  = ZpadPre;
     TVFparam.ZpadPost = ZpadPost;
 
@@ -122,7 +123,7 @@ elseif strncmp(TVFparam.Ctrl,'syn',3) == 1
 
     SndSyn = zeros(1,LenSndZp);
     for nf = 1:LenFrame
-        nRange = (nf-1)*(LenShift+1) + (1:LenWin);
+        nRange = (nf-1)*LenShift + (1:LenWin);     % debug 26 Mar 22, nRange = (nf-1)*(LenShift+1) + (1:LenWin);
         SndSyn(nRange) = SndSyn(nRange) + WinFrame(1:LenWin,nf)'.*TVFparam.WinSyn(:)';
     end
     SndMod = SndSyn(LenShift + (1:LenSnd));

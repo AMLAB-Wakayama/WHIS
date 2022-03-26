@@ -1,10 +1,11 @@
 %
 %       DTVF of WHIS: Wadai Hearing Impairment Simulator v300
 %       IRINO T.
-%       Created:   20 Oct  2021  Separeted from the main body WHISv300
-%       Modified:  20 Oct  2021 
-%       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
-%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
+%       Created:  20 Oct  2021  Separeted from the main body WHISv300
+%       Modified: 20 Oct  2021 
+%       Modified:　6  Mar 2022   WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
+%       Modified: 20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
+%       Modified: 26 Mar 2022 ( LenShift+1--> LenShift 問題で、SimTimeVaryFilter_AnaSynを変更。こちらは変更なし。）
 %
 %
 
