@@ -81,6 +81,7 @@ for nCmprsHlth = 1:length(CmprsHlthList)
             StrEMLoss = '';
             StrWHIS = '_WHISv226';
             addpath([DirProg  '/../WHISv226/']);
+            rmpath([DirProg '/Tool/']); % to avoid using tools of different version
             ParamHI.fs = WHISparam.fs;
             ParamHI.AudiogramNum    = str2num(WHISparam.HLoss.Type(3));  % WHISparam.HLoss.Type = 'HL2';
             ParamHI.SPLdB_CalibTone = WHISparam.CalibTone.SPLdB;
@@ -89,6 +90,7 @@ for nCmprsHlth = 1:length(CmprsHlthList)
             ParamHI.OutMidCrct          = WHISparam.GCparam.OutMidCrct;
             [SndWHIS,SrcSnd]             = HIsimBatch(SndIn, ParamHI) ;
         end
+
         
         NameSrcSnd = [NameSnd  StrWHIS '_Src'];
         NameSndWHIS = [NameSnd StrWHIS];
