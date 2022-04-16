@@ -610,7 +610,7 @@ if ParamHIGUI.GUI.SwCalibTone == 1,
     ParamHIGUI.RecordedCalibTone = ValRecSnd;
     ParamHIGUI.RMSDigitalLeveldB_RecordedCalibTone ...
         = ParamHIGUI.RMSDigitalLeveldB_RecordedSnd;
-    Str = ['RMS digital level: Play = ' ...
+    Str = ['Digital level: Play = ' ...
         num2str(ParamHIGUI.CalibTone.RMSDigitalLeveldB,'%5.1f') ...  % WHISv300 2021/10/11
         ' (dB),  Record = ' ...
         num2str(ParamHIGUI.RMSDigitalLeveldB_RecordedCalibTone,'%5.1f') ...
@@ -629,7 +629,7 @@ end;
 
 %Playback
 set(handles.TextStatus,  'ForegroundColor',ParamHIGUI.GUI.ColorTextPlay);
-set(handles.TextStatus,  'String',['Playing Sound : '  Str  ]);   %
+set(handles.TextStatus,  'String',['Playing: '  Str  ]);   %
 handles.player = audioplayer(ValRecSnd,ParamHIGUI.fs,ParamHIGUI.Nbits);   %added 24 Jul 15
 playblocking(handles.player);
 set(handles.TextStatus,  'String', 'Playing Sound  -- done');  % 不要
@@ -1421,9 +1421,9 @@ guidata(hObject, handles);
 
 
 % text(nTxt,ParamHIGUI.HearingLevelVal(nTxt)-5,'Hearing Impaired', 'FontSize', 12);
-%text(nTxt+0.1,ParamHIGUI.HearingLevelVal(nTxt)-2,'HL_{Total}');
+%text(nTxt+0.1,ParamHIGUI.HearingLevelVal(nTxt)-2,'HL_{total}');
 %文字サイズをnormalized指定に変更 16 Apr 2019, KF
-text(nTxt+0.1,ParamHIGUI.HearingLevelVal(nTxt)-2,'HL_{Total}','FontUnits', 'normalized',...
+text(nTxt+0.1,ParamHIGUI.HearingLevelVal(nTxt)-2,'HL_{total}','FontUnits', 'normalized',...
     'FontName', 'メイリオ','FontSize', 0.025);
 %%% compression degree NHの場合。
 plot(handles.axes1, xii, ParamHIGUI.Table_HLdB_DegreeCompressionPreSet(1,:),'gx-','LineWidth',1.5);
@@ -1479,9 +1479,9 @@ plot(handles.axes1, xii, ParamHIGUI.HLdB_LossCompression,'mx-','MarkerSize', 12,
 %   ['Preset Compression (' int2str(ParamHIGUI.DegreeCompressionPreSet*100) '%)'], 'FontSize', 12);
 %文字サイズをnormalized指定に変更 16 Apr 2019, KF
 % text(nTxt+0.1,ParamHIGUI.HLdB_LossCompression(nTxt)+4, ...
-%     ['HL_{ACT}'], 'FontSize', 12);
+%     ['HL_{act}'], 'FontSize', 12);
 text(nTxt+0.1,ParamHIGUI.HLdB_LossCompression(nTxt)+4, ...
-    ['HL_{ACT}'], 'FontUnits', 'normalized','FontName','メイリオ', 'FontSize', 0.025);
+    ['HL_{act}'], 'FontUnits', 'normalized','FontName','メイリオ', 'FontSize', 0.025);
 
 
 drawnow
