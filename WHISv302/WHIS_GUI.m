@@ -77,6 +77,7 @@ function varargout = WHIS_GUI(varargin)
 %       Modified:  21 Oct 2021  % Stopボタン等の場所、./Fig/に移動
 %       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
 %       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
+%       Modified:  16 Apr 2022  v302  Modified the label to HL_{act}, HL_{total}
 %
 %
 % WHIS_GUI MATLAB code for WHIS_GUI.fig
