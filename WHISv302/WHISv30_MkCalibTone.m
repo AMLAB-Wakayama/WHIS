@@ -6,6 +6,7 @@
 %      Modified: 10 Sep 2021  introducing hanning taper window to reduce click sounds
 %      Modified: 17 Sep 2021  tidy up
 %      Modified:  6  Mar 2022   WHISv300_func --> WHISv30_func 
+%      Modified: 11 Mar 2022   Adding SrcSnd.
 %
 %
 %
@@ -16,7 +17,11 @@ WHISparam.CalibTone.Tsnd       = 5;                  % WHISparam.CalibTone.Durat
 WHISparam.CalibTone.Freq       = 1000;
 WHISparam.CalibTone.RMSDigitalLeveldB  = -26;
 WHISparam.CalibTone.Ttaper = 0.005;
+% Source sound info. Added 
+WHISParam.SrcSnd.RMSDigitalLevelStrWeight = 'Leq';   % WHIS‚ðŽg‚¤‚Æ‚«‚Í‚©‚È‚ç‚¸Leq
+WHISParam.SrcSnd.RMSDigitalLeveldB = WHISparam.CalibTone.RMSDigitalLeveldB;
 
+% Making sound
 LenCalib  = WHISparam.CalibTone.Tsnd*fs;
 LenTaper = WHISparam.CalibTone.Ttaper*fs;
 AmpCalib = 10^(WHISparam.CalibTone.RMSDigitalLeveldB/20)*sqrt(2); % set about the same as recording level
