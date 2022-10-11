@@ -9,6 +9,13 @@
 %      Modified: 11 Oct  2022   Adding SrcSnd.RMSDigitalLevelStrWeight 
 %
 %
+%      Note: 11 Oct 2022
+%      WHISの計算では、RMS値でNormazliseされた音声SrcSndを使う。
+%      Added: WHISparam.SrcSnd.RMSDigitalLevelStrWeight = 'Leq';   % WHISを使うときはかならずLeq
+%      Added: WHISparam.SrcSnd.RMSDigitalLeveldB = WHISparam.CalibTone.RMSDigitalLeveldB;
+%      See also WHISv30_GetSrcSndNrmlz2CalibTone
+%      変数のconflictはないことを確認。
+%
 %
 function [CalibTone, WHISparam] = WHISv30_MkCalibTone(WHISparam)
 
