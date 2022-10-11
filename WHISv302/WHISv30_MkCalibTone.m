@@ -17,9 +17,9 @@ WHISparam.CalibTone.Tsnd       = 5;                  % WHISparam.CalibTone.Durat
 WHISparam.CalibTone.Freq       = 1000;
 WHISparam.CalibTone.RMSDigitalLeveldB  = -26;
 WHISparam.CalibTone.Ttaper = 0.005;
-% Source sound info. Added 
-WHISParam.SrcSnd.RMSDigitalLevelStrWeight = 'Leq';   % WHIS‚ðŽg‚¤‚Æ‚«‚Í‚©‚È‚ç‚¸Leq
-WHISParam.SrcSnd.RMSDigitalLeveldB = WHISparam.CalibTone.RMSDigitalLeveldB;
+% Source sound info. (11 Oct  2022)
+WHISparam.SrcSnd.RMSDigitalLevelStrWeight = 'Leq';   % WHIS‚ðŽg‚¤‚Æ‚«‚Í‚©‚È‚ç‚¸Leq
+WHISparam.SrcSnd.RMSDigitalLeveldB = WHISparam.CalibTone.RMSDigitalLeveldB;
 
 % Making sound
 LenCalib  = WHISparam.CalibTone.Tsnd*fs;
