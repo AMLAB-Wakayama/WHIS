@@ -25,7 +25,7 @@ WHISparam.CalibTone.Freq       = 1000;
 WHISparam.CalibTone.RMSDigitalLeveldB  = -26;
 WHISparam.CalibTone.Ttaper = 0.005;
 % Source sound info. (11 Oct  2022)
-WHISparam.SrcSnd.RMSDigitalLevelStrWeight = 'Leq';   % WHIS‚ðŽg‚¤‚Æ‚«‚Í‚©‚È‚ç‚¸Leq
+WHISparam.SrcSnd.RMSDigitalLevelStrWeight = 'RMS';   % WHIS‚ðŽg‚¤‚Æ‚«‚Í‚©‚È‚ç‚¸RMS == Leq
 WHISparam.SrcSnd.RMSDigitalLeveldB = WHISparam.CalibTone.RMSDigitalLeveldB;
 
 % Making sound
