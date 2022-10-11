@@ -6,7 +6,7 @@
 %      Modified: 10 Sep 2021  introducing hanning taper window to reduce click sounds
 %      Modified: 17 Sep 2021  tidy up
 %      Modified:  6  Mar 2022   WHISv300_func --> WHISv30_func 
-%      Modified: 11 Mar 2022   Adding SrcSnd.
+%      Modified: 11 Oct  2022   Adding SrcSnd.RMSDigitalLevelStrWeight 
 %
 %
 %
