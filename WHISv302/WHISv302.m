@@ -16,7 +16,8 @@
 %      Modified:  20 Oct  2021  ‹¤’Ê•”•ª’ŠoBWHISv300dtvf, WHISv300fabs‚ð‚±‚±‚Å•ª—£ -- control  GCparam
 %      Modified:  26 Oct  2021  introducing MkFilterField2Cochlea
 %      Modified:   6  Mar 2022   v301  WHISv300_func --> WHISv30_func, GCFBv231--> GCFBv232
-%       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
+%      Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
+%      Modified:  19 Oct 2022  v302  GCFBv234 <-- GCFBv233
 %
 %
 %   function [SndOut, WHISparam] = WHISv300(SrcSnd, WHISparam);
@@ -143,7 +144,7 @@ tic;
 %  HL GCframe
 %%%%%%%%
 GCparam.HLoss = WHISparam.HLoss;  % ‚±‚ê‚ÅŠO•”‚©‚çHLoss‚ÌParam‚ð“±“ü. HLoss.Type‚à‚±‚±‚Å“±“ü‚³‚ê‚é
-[dcGCframeHL, scGCsmplHL,GCparamHL,GCrespHL] = GCFBv233(Snd4GCFB,GCparam);
+[dcGCframeHL, scGCsmplHL,GCparamHL,GCrespHL] = GCFBv234(Snd4GCFB,GCparam);
 % GCrespHL.LvldBframe;
 % GCrespHL.pGCframe;
 % GCrespHL.scGCframe;

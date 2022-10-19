@@ -28,7 +28,7 @@ Packages:
 
 * WHISv302:  Mar 2022 version
     - New implementation of WHIS. 
-    - GCFBv233 is essential for this version  
+    - GCFBv233 or the later version is essential for this WHIS  
     - See ./WHISv302/_ReadMeFirst_WHISv302.md  
     - See ./WHISv302/_ReadMeFirst_WHISv302_Jp.md  (in Japanese)
     - See arXiv preprint "arXiv_WHISgc22_I.pdf" for the detail of WHISv30
