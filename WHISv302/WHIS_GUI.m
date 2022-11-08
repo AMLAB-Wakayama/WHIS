@@ -78,6 +78,7 @@ function varargout = WHIS_GUI(varargin)
 %       Modified:   6  Mar 2022   WHISv300_func --> WHISv30_func 
 %       Modified:  20 Mar 2022  v302  <--- GCFBv233  to avoid misleading  HL_OHC --> HL_ACT, HL_IHC --> HL_PAS
 %       Modified:  16 Apr 2022  v302  Modified the label to HL_{act}, HL_{total}
+%       Modified:    8 Nov 2022  v302  ParamHIGUI.SrcSnd -->  ParamHIGUI.SrcSndWav to avoid conflict in WHISparam
 %
 %
 % WHIS_GUI MATLAB code for WHIS_GUI.fig
@@ -325,7 +326,7 @@ SetWorkingDirectory(hObject, handles);
 %Exec_HIsimFastGCの高速化のため、関数を事前に呼び出し、cashに入れる。
 % 音の種類やパラメータはなんでも良く、ここでは短時間の音。
 % 短すぎると、DelayCmpnstでエラーが出るため、0.1 secに
-ParamHIGUI.SrcSnd = sin(2*pi*1000*(0:0.1*ParamHIGUI.fs)/ParamHIGUI.fs); % 10ms sin wave
+ParamHIGUI.SrcSndWav = sin(2*pi*1000*(0:0.1*ParamHIGUI.fs)/ParamHIGUI.fs); % 10ms sin wave
 Exec_WHISv30(hObject, eventdata, handles);
 
 %
@@ -709,7 +710,7 @@ if ParamHIGUI.GUI.SwCalibTone == 1,
     
 else
     NameSaveSoundDflt = [ParamHIGUI.GUI.NameKeepSrcSndHdr  ParamHIGUI.GUI.NameRecTime '.wav'];
-    ParamHIGUI.SrcSnd = ValRecSnd;
+    ParamHIGUI.SrcSndWav = ValRecSnd;
     ParamHIGUI.RMSDigitalLeveldB_RecSnd = 20*log10(sqrt(mean(ValRecSnd.^2)));
     [SPLdB, StrSPLdB] =  CnvtRMSDigitalLevel2SPLdB_String(ParamHIGUI.RMSDigitalLeveldB_RecSnd);
     ParamHIGUI.SrcSndSPLdB = SPLdB;  % HI simulator信号処理のもっとも重要なパラメータ
@@ -886,7 +887,7 @@ ParamHIGUI.SrcSndSPLdB = ParamHIGUI.SrcSndSPLdB_default;
 
 % playback here when loading & normalized  % local variable
 SrcSndPlayer = ...
-    audioplayer(ParamHIGUI.SrcSnd,ParamHIGUI.fs,ParamHIGUI.Nbits);
+    audioplayer(ParamHIGUI.SrcSndWav,ParamHIGUI.fs,ParamHIGUI.Nbits);
 playblocking(SrcSndPlayer);
 
 set(handles.SetSPLdB,  'Enable', 'on');
@@ -905,7 +906,7 @@ WHISparam.fs = ParamHIGUI.fs;
 WHISparam.SrcSnd.SPLdB  = ParamHIGUI.SrcSndSPLdB; 
 WHISparam.CalibTone.SPLdB  = ParamHIGUI.SPLdB_CalibTone;
 [SrcSnd, WHISparam] = WHISv30_GetSrcSndNrmlz2CalibTone(SndLoad,RecordedCalibTone,WHISparam);
-ParamHIGUI.SrcSnd = SrcSnd;
+ParamHIGUI.SrcSndWav = SrcSnd;
                
 end
 
@@ -942,7 +943,7 @@ end
                
 % playback here when loading & normalized  % local variable
 SrcSndPlayer = ...
-    audioplayer(ParamHIGUI.SrcSnd,ParamHIGUI.fs,ParamHIGUI.Nbits);
+    audioplayer(ParamHIGUI.SrcSndWav,ParamHIGUI.fs,ParamHIGUI.Nbits);
 
 Str = ['Set SPL of the source sound as ' num2str(ParamHIGUI.SrcSndSPLdB,'%5.1f') ' dB.'];
 disp(Str);
@@ -1003,12 +1004,12 @@ if isfield(ParamHIGUI,'SrcSnd') == 0
 end;
 if ParamHIGUI.SwKeepSnd == 1
     NameKeepSnd = [ParamHIGUI.GUI.DirSound  ParamHIGUI.GUI.NameKeepSrcSnd '.wav'];
-    audiowrite(NameKeepSnd, ParamHIGUI.SrcSnd, ParamHIGUI.fs, ...
+    audiowrite(NameKeepSnd, ParamHIGUI.SrcSndWav, ParamHIGUI.fs, ...
         'BitsPerSample',ParamHIGUI.Nbits);
 end;
 % prepare SrcSndPlayer
 ParamHIGUI.SrcSndPlayer = ...
-    audioplayer(ParamHIGUI.SrcSnd,ParamHIGUI.fs,ParamHIGUI.Nbits);
+    audioplayer(ParamHIGUI.SrcSndWav,ParamHIGUI.fs,ParamHIGUI.Nbits);
 
 set(handles.TextStatus,  'ForegroundColor',ParamHIGUI.GUI.ColorTextPlay);
 set(handles.TextStatus, 'String', 'Processing ...');
@@ -1094,7 +1095,7 @@ end % Manual setting
 %WHISparam
 %WHISparam.HLoss
 
-SrcSnd = ParamHIGUI.SrcSnd; 
+SrcSnd = ParamHIGUI.SrcSndWav; 
 
 % Setting 21 Oct 21  --> 6 Mar 2022
 GCparam.OutMidCrct = 'ELC';   %これだけ明示的に与える。　MAP/MAF/FreeFieldも選択可能。
@@ -1175,7 +1176,7 @@ set(handles.PlayHIsim,      'Enable', 'off');
 set(handles.PlayHIsimPrev,  'Enable', 'off');
 set(handles.PlayHIsimPrev2, 'Enable', 'off');
 if isfield(ParamHIGUI, 'RMSDigitalLeveldB_SrcSnd') == 0  %% patch avoiding error.  6 Nov 2021
-    ParamHIGUI.RMSDigitalLeveldB_SrcSnd = 20*log10(rms( ParamHIGUI.SrcSnd ));
+    ParamHIGUI.RMSDigitalLeveldB_SrcSnd = 20*log10(rms( ParamHIGUI.SrcSndWav ));
 end
 [SPLdB, StrSPLdB] = CnvtRMSDigitalLevel2SPLdB_String(ParamHIGUI.RMSDigitalLeveldB_SrcSnd);
 Str = 'Playing source sound';
