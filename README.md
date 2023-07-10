@@ -48,5 +48,5 @@ Reference
 - [1] Toshio Irino, "A new implementation of hearing impairment simulator WHIS based on the gammachirp auditory filterbank," Report of ASJ hearing commitee meeting, 11 Dec 2021 (Main text in Japanese, with English extended abstract)  
 - [2] Toshio Irino, "WHIS: Hearing impairment simulator based on the gammachirp auditory filterbank," arXiv preprint, [arXiv.2206.06604], 
 https://doi.org/10.48550/arXiv.2206.06604, 14 Jun 2022. (First English document)
-- [3] Toshio Irino, "Hearing impairment simulator based on auditory excitation pattern playback: WHIS," techRxiv preprint,(https://www.techrxiv.org/articles/preprint/Hearing_impairment_simulator_based_on_auditory_excitation_pattern_playback_WHIS/22639831/2)https://www.techrxiv.org/articles/preprint/Hearing_impairment_simulator_based_on_auditory_excitation_pattern_playback_WHIS/22639831/2, 29 Jun 2023. (second English document: more complihensive)
+- [3] Toshio Irino, "Hearing impairment simulator based on auditory excitation pattern playback: WHIS," techRxiv preprint,[https://www.techrxiv.org/articles/preprint/Hearing_impairment_simulator_based_on_auditory_excitation_pattern_playback_WHIS/22639831/2], 29 Jun 2023. (second English document: more complihensive)
 
