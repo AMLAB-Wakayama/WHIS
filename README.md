@@ -2,9 +2,9 @@
 %%  
 %% README file for Wadai (Wakayama University) Hearing Impairment Simulator (WHIS)  
 %%  和大模擬難聴システム  
-%% Copyright (c) 2010-2022  Wakayama University  
+%% Copyright (c) 2010-2023  Wakayama University  
 %% All rights reserved.  
-%% By Toshio Irino , 21-Mar-2022
+%% By Toshio Irino , 10-Jul-2023  ( <-- 21-Mar-2022)
 %%  
 %% ======================================================================  
 
