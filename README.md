@@ -31,7 +31,7 @@ Packages:
     - GCFBv233 or the later version is essential for this WHIS  
     - See ./WHISv302/_ReadMeFirst_WHISv302.md  
     - See ./WHISv302/_ReadMeFirst_WHISv302_Jp.md  (in Japanese)
-    - See arXiv preprint "arXiv_WHISgc22_I.pdf" for the detail of WHISv30
+    - See IEEE access paper [https://ieeexplore.ieee.org/document/10193769] for the detail of WHISv30
 
 
 ---  
