@@ -1,4 +1,4 @@
-function demoai_acoustic(varargin)
+﻿function demoai_acoustic(varargin)
 %DEMOAI_ACOUSTIC FFT/3rd octave display of an incoming analog input signal.
 %
 %    DEMOAI_ACOUSTIC creates an analog input object associated with the 

@@ -1,4 +1,4 @@
-%
+ï»¿%
 %  OneThird Oct Filterbank
 %   Irino T.,
 %   Created: 16 Feb 2021 % from oct3fit.m
@@ -32,11 +32,11 @@ ParamOct3.FcLabel = ParamOct3.FcLabel(ParamOct3.NumRange);
 ParamOct3.FcList    = ParamOct3.FcList(ParamOct3.NumRange);
 ParamOct3.FboundaryList = ParamOct3.FboundaryList(:, ParamOct3.NumRange);
 if isfield(ParamOct3,'FilterDelay1kHz') == 0,
-    ParamOct3.FilterDelay1kHz = 0.003;  % 3ms ˆê”ÔŒë·‚ª¬‚³‚¢‹C‚ª‚·‚é
+    ParamOct3.FilterDelay1kHz = 0.003;  % 3ms ä¸€ç•ªèª¤å·®ãŒå°ã•ã„æ°—ãŒã™ã‚‹
 end;
 NumDelay1kHz = ParamOct3.FilterDelay1kHz*ParamOct3.fs;
 if isfield(ParamOct3,'NrmlzPwrdB') == 0,
-        ParamOct3.NrmlzPwrdB = 50;  % ‚±‚Ì’l‚Í“K“–@calibration‚µ‚Ä“ü‚ê‚é‚±‚ÆB
+        ParamOct3.NrmlzPwrdB = 50;  % ã“ã®å€¤ã¯é©å½“ã€€calibrationã—ã¦å…¥ã‚Œã‚‹ã“ã¨ã€‚
 end;
 
 %% %%%%%%%%%%%%%%%
@@ -52,13 +52,13 @@ for nf = 1:LenOct3
     Fc = ParamOct3.FcList(nf);
     [bz,ap] = oct3dsgn(Fc,ParamOct3.fs,ParamOct3.OrderFilter);
     nDelay = fix(1000/Fc*NumDelay1kHz);
-    Snd1 = [Snd zeros(1,nDelay)]; % Delay•ª’·‚­‚·‚éB
+    Snd1 = [Snd zeros(1,nDelay)]; % Delayåˆ†é•·ãã™ã‚‹ã€‚
     SndFilt = filter(bz,ap,Snd1);
     FBoct3(nf,:) = SndFilt(1:LenSnd);
     FBoct3DlyCmp(nf,:) = SndFilt((nDelay +1):end); % Delay compensation
     ParamOct3.NumDelay(nf) = nDelay;
 end;
-% ’Pƒ‚É•½‹Ï’l‚Å‡¬‚µ‚ÄA‚»‚Ì‘å‚«‚³‚ª‚»‚ë‚¤‚æ‚¤‚ÈGainSyn‚ğŒvZ
+% å˜ç´”ã«å¹³å‡å€¤ã§åˆæˆã—ã¦ã€ãã®å¤§ãã•ãŒãã‚ã†ã‚ˆã†ãªGainSynã‚’è¨ˆç®—
 SndSyn = mean(FBoct3DlyCmp,1);
 ParamOct3.GainAnaSyn = sqrt(mean(Snd.^2))/sqrt(mean(SndSyn.^2));
 PwrdB =  10*log10(mean(FBoct3.^2,2)) + ParamOct3.NrmlzPwrdB;

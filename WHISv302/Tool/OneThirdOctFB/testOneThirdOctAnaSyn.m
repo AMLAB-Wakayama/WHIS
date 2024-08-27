@@ -1,4 +1,4 @@
-%
+ï»¿%
 %   test OneThirdOctAnaSyn
 %   Irino, T.
 %   Created:  16 Feb 2021
@@ -15,13 +15,13 @@ LenSnd = Tsnd*fs;
 DirSnd = [getenv('HOME') '/tmp/'];
 
 SwSnd =3;
-ParamOct3.SwModify = 0; % OneThirdOctFB‚Å‚Ì•ÏŒ`‚È‚µB•ªÍ‡¬
-% ParamOct3.SwModify = 1; % OneThirdOctFB‚Å‚Ì•ÏŒ`‚Ì‘I‘ğ
+ParamOct3.SwModify = 0; % OneThirdOctFBã§ã®å¤‰å½¢ãªã—ã€‚åˆ†æåˆæˆ
+% ParamOct3.SwModify = 1; % OneThirdOctFBã§ã®å¤‰å½¢ã®é¸æŠ
 %ParamOct3.SwModify = 3;
 ParamOct3.TMTFlpfFc = 16; % if ParamOct3.SwModify == 3
 %ParamOct3.TMTFlpfFc = 8;
-%ParamOct3.SwCombReduction = 1; %@1/3oct filter‚ğ‚P‚Â‚¨‚«‚É‹ùŒ`‚É”²‚­
-%ParamOct3.FreqRange = [100 3600]; %  “d˜b‚Í 300-3400
+%ParamOct3.SwCombReduction = 1; %ã€€1/3oct filterã‚’ï¼‘ã¤ãŠãã«æ«›å½¢ã«æŠœã
+%ParamOct3.FreqRange = [100 3600]; %  é›»è©±ã¯ 300-3400
 
 if SwSnd  == 1
     Snd = [ zeros(1,100), 1, zeros(1,LenSnd-101)];
@@ -34,7 +34,7 @@ elseif SwSnd == 3,
     NameSnd0 = 'mis_40101_babble+6dB';
     [Snd, fs] = audioread([DirSnd NameSnd0 '.wav']);
     NameSnd = ['Snd_' NameSnd0];
-    Snd = Snd(:)'; % sƒxƒNƒgƒ‹
+    Snd = Snd(:)'; % è¡Œãƒ™ã‚¯ãƒˆãƒ«
 end;
 
 LenSnd = length(Snd);
@@ -51,11 +51,11 @@ ParamOct3.SwShiftOct6 = 0;
 [LenOct3,LenSnd] = size(FBoct3Mod);
 toc
 
-% 1/6 oct shift‚ÌFB‚ğ•t‚¯‰Á‚¦‚é
+% 1/6 oct shiftã®FBã‚’ä»˜ã‘åŠ ãˆã‚‹
 %ParamOct3.SwShiftOct6 = 1;
 % SynSnd6 = OneThirdOctFB(Snd,ParamOct3);
 % SndSyn = (SynSyn+SynSnd6)/2;
-% ‚±‚ê‚ğ‚â‚Á‚Ä‚à•ÏŒ`‰¹‚Í‚½‚¢‚µ‚Äˆá‚í‚È‚¢-- ƒŠƒbƒvƒ‹‚ÍŒ¸‚Á‚ÄA1dB–¢–‚É‚È‚éB
+% ã“ã‚Œã‚’ã‚„ã£ã¦ã‚‚å¤‰å½¢éŸ³ã¯ãŸã„ã—ã¦é•ã‚ãªã„-- ãƒªãƒƒãƒ—ãƒ«ã¯æ¸›ã£ã¦ã€1dBæœªæº€ã«ãªã‚‹ã€‚
 
 %RmsSnd
 %RmsSndSyn = sqrt(mean(SndSyn.^2))
@@ -64,7 +64,7 @@ toc
 
 ap2 = audioplayer(SndSyn,fs);
 playblocking(ap2);
-% OK ‚Ù‚Ú—ò‰»‚È‚µ
+% OK ã»ã¼åŠ£åŒ–ãªã—
 RmsErrdB = 20*log10(sqrt(mean((Snd-SndSyn).^2))/sqrt(mean(Snd.^2)))
 
 SndDiff = Snd-SndSyn;

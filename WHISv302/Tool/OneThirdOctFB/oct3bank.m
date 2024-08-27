@@ -1,4 +1,4 @@
-function [p,f] = oct3bank(x); 
+﻿function [p,f] = oct3bank(x); 
 % OCT3BANK Simple one-third-octave filter bank. 
 %    OCT3BANK(X) plots one-third-octave power spectra of signal vector X. 
 %    Implementation based on ANSI S1.11-1986 Order-3 filters. 
