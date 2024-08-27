@@ -1,4 +1,4 @@
-%
+ï»¿%
 %   Lowpass envelope using  OneThird Oct Filterbank
 %   Irino T.,
 %   Created:   2 Sep 2021  % from OneThirdOctAnaSyn
@@ -47,7 +47,7 @@ FBoct3Mod = zeros(LenOct3,LenSnd);
 
 for nf = 1:LenOct3
     %% Ana
-    Fout = FBoct3DlyCmp(nf,:); % compensated‚Ì•û‚ÅŒvZ
+    Fout = FBoct3DlyCmp(nf,:); % compensatedã®æ–¹ã§è¨ˆç®—
     FoutAmp = abs(hilbert(Fout));
     FoutPhs   = angle(hilbert(Fout));
     
@@ -59,14 +59,14 @@ for nf = 1:LenOct3
     FoutAmpMod = [FoutAmpMod1(1:min(LenSnd,LenMod)), zeros(1,LenSnd-LenMod)];
     
     %% Synth %%%%
-    FoutSyn = real(FoutAmpMod.*exp(j*FoutPhs));  %@resample‚¹‚¸‚ÉAmp‚ª“¯‚¶‚È‚çŠ®‘S‚É‚à‚Ç‚é‚±‚Æ‚ğŠm”F
+    FoutSyn = real(FoutAmpMod.*exp(j*FoutPhs));  %ã€€resampleã›ãšã«AmpãŒåŒã˜ãªã‚‰å®Œå…¨ã«ã‚‚ã©ã‚‹ã“ã¨ã‚’ç¢ºèª
     FBoct3Mod(nf,:)= FoutSyn;
     
     % ErrdB(nf) =  10*log10(mean((Fout-FoutSyn).^2)/mean(Fout.^2));
 end
 SndSyn0 = mean(FBoct3Mod);
 
-ParamOct3.AmpNorm = ParamOct3.GainAnaSyn; % simple ana/syn‚ÌƒŒƒxƒ‹
+ParamOct3.AmpNorm = ParamOct3.GainAnaSyn; % simple ana/synã®ãƒ¬ãƒ™ãƒ«
 if strcmp(ParamOct3.StrNorm,'Normlize2InputSnd') == 1
     ParamOct3.AmpNorm =  rms(Snd)/rms(SndSyn0);
 end
@@ -79,22 +79,22 @@ return
 % Trash
 %%%%%%%%%%%%%%%%%%%%%
 
-% ‚±‚Ìƒo[ƒWƒ‡ƒ“‚Å‚ÍA‚â‚ê‚È‚¢B“ü‚ê‚È‚¢•û‚ªŠÔˆá‚¢‚È‚¢‚Æv‚í‚ê‚éB
-% ParamOct3.FcShiftRatio = 1; % ’ÊíƒVƒtƒg‚È‚µ
-% if isfield(ParamOct3,'SwShiftOct6') == 1 && ParamOct3.SwShiftOct6 == 1   % Fc‚ğ1/6oct‚ğ‚¸‚ç‚·ê‡
-%     ParamOct3.FcShiftRatio = 2^(1/6); % 1/6octƒVƒtƒg
+% ã“ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§ã¯ã€ã‚„ã‚Œãªã„ã€‚å…¥ã‚Œãªã„æ–¹ãŒé–“é•ã„ãªã„ã¨æ€ã‚ã‚Œã‚‹ã€‚
+% ParamOct3.FcShiftRatio = 1; % é€šå¸¸ã‚·ãƒ•ãƒˆãªã—
+% if isfield(ParamOct3,'SwShiftOct6') == 1 && ParamOct3.SwShiftOct6 == 1   % Fcã‚’1/6octã‚’ãšã‚‰ã™å ´åˆ
+%     ParamOct3.FcShiftRatio = 2^(1/6); % 1/6octã‚·ãƒ•ãƒˆ
 %     disp(' ---   1/6 Octave shift of center frequency ---');
 % end;
 % if ParamOct3.FcShiftRatio ~= 1
-%     ParamOct3.FcList = ParamOct3.FcList*ParamOct3.FcShiftRatio; % ƒVƒtƒg‚àŠÜ‚ß
-%     ParamOct3.FcLabel = round(ParamOct3.FcLabel*ParamOct3.FcShiftRatio);  % ‚±‚ê‚àˆê‰•ÏX
+%     ParamOct3.FcList = ParamOct3.FcList*ParamOct3.FcShiftRatio; % ã‚·ãƒ•ãƒˆã‚‚å«ã‚
+%     ParamOct3.FcLabel = round(ParamOct3.FcLabel*ParamOct3.FcShiftRatio);  % ã“ã‚Œã‚‚ä¸€å¿œå¤‰æ›´
 % end;
 
 
 % ParamOct3.NumRange = find(ParamOct3.FcLabel >=  min(ParamOct3.FreqRange) & ...
 %     ParamOct3.FcLabel <=  max(ParamOct3.FreqRange) );
 % if isfield(ParamOct3,'SwCombReduction') == 1
-%     %‚í‚´‚Æ‚P‚Â”ò‚Î‚µ‚É‚µ‚Ä‚İ‚é --   ‹ùŒ`‚ÉíŒ¸
+%     %ã‚ã–ã¨ï¼‘ã¤é£›ã°ã—ã«ã—ã¦ã¿ã‚‹ --   æ«›å½¢ã«å‰Šæ¸›
 %     ParamOct3.NumRange = min(ParamOct3.NumRange):2:max(ParamOct3.NumRange);
 % end
 % ParamOct3.FcLabel = ParamOct3.FcLabel(ParamOct3.NumRange);
@@ -104,13 +104,13 @@ return
 % FBoct3DlyCmp = FBoct3DlyCmp(ParamOct3.NumRange,:);
 
 
-% 48kHz‚É‘Î‚µ‚ÄA16Hz‚ÌƒtƒBƒ‹ƒ^‚Íì‚ê‚È‚¢B
-% resampling‚µ‚ÄA16 Hz‚©B
-%@modulation ‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”‚Ì’è‹` --- GCFB‚Æ“¯‚¶‚É‚µ‚Ä‚¨‚±‚¤B
+% 48kHzã«å¯¾ã—ã¦ã€16Hzã®ãƒ•ã‚£ãƒ«ã‚¿ã¯ä½œã‚Œãªã„ã€‚
+% resamplingã—ã¦ã€16 Hzã‹ã€‚
+%ã€€modulation ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã®å®šç¾© --- GCFBã¨åŒã˜ã«ã—ã¦ãŠã“ã†ã€‚
 % ParamOct3.fsMod = 100;
 % [bzLP, apLP] = butter(2,ParamOct3.LPFfc/(ParamOct3.fsMod/2));  % modulation cutoff
 % ParamOct3.LPFfc
-%         if 0 resample ‚·‚é•K—v‚È‚µ
+%         if 0 resample ã™ã‚‹å¿…è¦ãªã—
 %             EnvAmp = resample(FoutAmp,ParamOct3.fsMod,ParamOct3.fs); % downsampling
 %             EnvAmpMod = filter(bzLP,apLP,EnvAmp); % LPF
 %             FoutAmpMod1 = resample(EnvAmpMod,ParamOct3.fs,ParamOct3.fsMod); % upsampling
@@ -122,43 +122,43 @@ return
 
 
 
-%         % ‚ ‚Ü‚èˆÓ–¡‚Ì‚ ‚é•ÏŒ`‚Í‚È‚¢‚Ì‚ÅA‚Æ‚è‚ ‚¦‚¸g‚í‚È‚¢B
-%         if 0      % —lX‚È•ÏŒ`‚ğ‚µ‚Ä‚İ‚éB
+%         % ã‚ã¾ã‚Šæ„å‘³ã®ã‚ã‚‹å¤‰å½¢ã¯ãªã„ã®ã§ã€ã¨ã‚Šã‚ãˆãšä½¿ã‚ãªã„ã€‚
+%         if 0      % æ§˜ã€…ãªå¤‰å½¢ã‚’è©¦ã—ã¦ã¿ã‚‹ã€‚
 %             if ParamOct3.SwModify == 2
 %                 StrModify = 'Add constant';
 %                 FoutAmpMod = FoutAmp*0.1 + mean(FoutAmp)*ones(1,LenSnd); %  flat respose
 %             elseif ParamOct3.SwModify == 3
 %                 StrModify = 'Add randn';
 %                 FoutAmpMod = FoutAmp*0.1 + 0.005*randn(1,LenSnd);
-%                 %  ‚Ü‚¾white noise“I‚È‚Ì‚Åreallity‚Æ‚µ‚Ä‚Í‹ß‚¢Š´‚¶B‰¹º‚Ì¿Š´‚ğ‘¹‚È‚í‚È‚¢B’P‚ÉSNR‚ªˆ«‚­‚È‚Á‚½Š´‚¶B
+%                 %  ã¾ã white noiseçš„ãªã®ã§reallityã¨ã—ã¦ã¯è¿‘ã„æ„Ÿã˜ã€‚éŸ³å£°ã®è³ªæ„Ÿã‚’æãªã‚ãªã„ã€‚å˜ã«SNRãŒæ‚ªããªã£ãŸæ„Ÿã˜ã€‚
 %                 
 %             elseif ParamOct3.SwModify == 4
 %                 StrModify = 'Lowpass+SS';
 %                 CoefSS = 0.8;
 %                 CoefSS = 1;
-%                 CoefReduct = 1; % --- ‚±‚êˆÓ–¡‚È‚¢‹C‚ª‚·‚éB CoeffSS‚Æ•ª—£‚·‚é‚Æ§Œä‚Í“ï‚µ‚¢B
+%                 CoefReduct = 1; % --- ã“ã‚Œæ„å‘³ãªã„æ°—ãŒã™ã‚‹ã€‚ CoeffSSã¨åˆ†é›¢ã™ã‚‹ã¨åˆ¶å¾¡ã¯é›£ã—ã„ã€‚
 %                 FoutAmp = filter(bzLP,apLP,FoutAmp);
 %                 RmsFoutAmp = sqrt(mean(FoutAmp.^2));
 %                 FoutAmp= max(CoefReduct * FoutAmp- CoefReduct*CoefSS*RmsFoutAmp,0); % Spec subtraction
 %                 RmsFoutAmp2 = sqrt(mean(FoutAmp.^2));
 %                 ReductiondB2(nf) = 20*log10(RmsFoutAmp2/RmsFoutAmp);
-%                 % SS‚ğ‚¢‚ê‚é‚±‚Æ‚É‚æ‚èA—]Œv‚Èc‹¿‰¹“I‚È‚à‚Ì‚ÍÁ‚¦‚é‚Ì‚Å—Ç‚¢‚©‚àB
-%                 % ReductiondB ‚ÍA-3‚©‚ç-8dB’ö“x‚È‚Ì‚ÅA‚±‚ê‚àg‚¦‚é‹C‚ª‚·‚éB
-%                 % sin”g‚ğ‚¢‚ê‚é‚ÆA‘¼‚Ì¬•ª‚ªáŠ±‚Å‚é‚ªAmain‚ğ˜c‚Ü‚¹‚é‚Ù‚Ç‚Å‚Í‚È‚¢B
-%                 FoutAmpMod = FoutAmp* RmsFoutAmp0/RmsFoutAmp2; % •\Œ»‚ÍŒ³‚Æ“¯‚¶rms’l‚Åo—Í--> audiogram‚É‰e‹¿‚ªo‚È‚¢‚æ‚¤
+%                 % SSã‚’ã„ã‚Œã‚‹ã“ã¨ã«ã‚ˆã‚Šã€ä½™è¨ˆãªæ®‹éŸ¿éŸ³çš„ãªã‚‚ã®ã¯æ¶ˆãˆã‚‹ã®ã§è‰¯ã„ã‹ã‚‚ã€‚
+%                 % ReductiondB ã¯ã€-3ã‹ã‚‰-8dBç¨‹åº¦ãªã®ã§ã€ã“ã‚Œã‚‚ä½¿ãˆã‚‹æ°—ãŒã™ã‚‹ã€‚
+%                 % sinæ³¢ã‚’ã„ã‚Œã‚‹ã¨ã€ä»–ã®æˆåˆ†ãŒè‹¥å¹²ã§ã‚‹ãŒã€mainã‚’æ­ªã¾ã›ã‚‹ã»ã©ã§ã¯ãªã„ã€‚
+%                 FoutAmpMod = FoutAmp* RmsFoutAmp0/RmsFoutAmp2; % è¡¨ç¾ã¯å…ƒã¨åŒã˜rmså€¤ã§å‡ºåŠ›--> audiogramã«å½±éŸ¿ãŒå‡ºãªã„ã‚ˆã†
 %                 RmsFoutAmp3 = sqrt(mean(FoutAmpMod.^2));
 %                 ReductiondB3(nf) = 20*log10(RmsFoutAmp3/RmsFoutAmp);
 %                 
-%                 %Œ‹‹ÇA‚à‚Æ‚É”{”‚Å‚à‚Ç‚·‚Ì‚ÅAmodulation depth‚ª–ß‚é--- enhance‚É‚·‚ç‚È‚éB
-%                 % modulation depth ---‚à‚¤ˆê“xŒ©‚é‚±‚Æ
-%                 %  --->   depth reduction‚É‚Â‚¢‚Ä‚ÍA‚ ‚«‚ç‚ß‚é‚µ‚©‚È‚¢‚©B
+%                 %çµå±€ã€ã‚‚ã¨ã«å€æ•°ã§ã‚‚ã©ã™ã®ã§ã€modulation depthãŒæˆ»ã‚‹--- enhanceã«ã™ã‚‰ãªã‚‹ã€‚
+%                 % modulation depth ---ã‚‚ã†ä¸€åº¦è¦‹ã‚‹ã“ã¨
+%                 %  --->   depth reductionã«ã¤ã„ã¦ã¯ã€ã‚ãã‚‰ã‚ã‚‹ã—ã‹ãªã„ã‹ã€‚
 %                 
 %             elseif ParamOct3.SwModify == 5
 %                 StrModify = 'SS';
 %                 MeanFoutAmp = mean(FoutAmp);
-%                 FoutAmp = FoutAmp*0.1 + MeanFoutAmp*ones(1,LenSnd); % modulation depth‚ğŒ¸­
+%                 FoutAmp = FoutAmp*0.1 + MeanFoutAmp*ones(1,LenSnd); % modulation depthã‚’æ¸›å°‘
 %                 FoutAmpMod= max(FoutAmp- MeanFoutAmp*1.1,0); % Spec subtraction
-%                 % ‚ ‚Ü‚è‰¹‚Ì•Ï‰»‚È‚µBmodulation depth‚ğ‚±‚Ì‚æ‚¤‚É‚µ‚Ä•Ï‚¦‚é‚Ì‚Í“ï‚µ‚¢
+%                 % ã‚ã¾ã‚ŠéŸ³ã®å¤‰åŒ–ãªã—ã€‚modulation depthã‚’ã“ã®ã‚ˆã†ã«ã—ã¦å¤‰ãˆã‚‹ã®ã¯é›£ã—ã„
 %             end
 %         end
         

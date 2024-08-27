@@ -1,4 +1,4 @@
-function [p,f] = oct3filt(B,A,x); 
+﻿function [p,f] = oct3filt(B,A,x); 
 % OCT3FILT Implement a bank of third octave filters 
 %
 %   [p,f]=oct3filt(B,A,x)  implements the array of 

@@ -1,4 +1,4 @@
-function [B,A] = oct3dsgn(Fc,Fs,N); 
+﻿function [B,A] = oct3dsgn(Fc,Fs,N); 
 % OCT3DSGN  Design of a one-third-octave filter.
 %    [B,A] = OCT3DSGN(Fc,Fs,N) designs a digital 1/3-octave filter with 
 %    center frequency Fc for sampling frequency Fs. 

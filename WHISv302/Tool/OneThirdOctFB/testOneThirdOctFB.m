@@ -1,4 +1,4 @@
-%
+ï»¿%
 %   Irino, T.
 %   Created:  16 Feb 2021
 %   Modified:  16 Feb 2021
@@ -26,7 +26,7 @@ elseif SwSnd == 3,
     NameSnd0 = 'mis_40101_babble+6dB';
     [Snd, fs] = audioread([DirSnd NameSnd0 '.wav']);
     NameSnd = ['Snd_' NameSnd0];
-    Snd = Snd(:)'; % sƒxƒNƒgƒ‹
+    Snd = Snd(:)'; % è¡Œãƒ™ã‚¯ãƒˆãƒ«
 end;
 
 LenSnd = length(Snd);
